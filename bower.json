@@ -19,15 +19,18 @@
     "*.png"
   ],
   "dependencies": {
-    "polymer": "^v1.6.0",
-    "px-theme": "^2.0.1",
+    "polymer": "^v1.8.1",
+    "px-theme": "^2.0.4",
     "px-vis": "^1.0.0",
-    "iron-resizable-behavior": "~v1.0.3",
-    "px-number-formatter": "^3.0.0",
-    "iron-a11y-keys": "~1.0.6"
+    "iron-resizable-behavior": "~v1.0.5",
+    "px-number-formatter": "^3.0.4",
+    "iron-a11y-keys": "~1.0.7"
   },
   "devDependencies": {
-    "px-starter-kit-design": "^0.7.0",
-    "px-demo": "~1.4.8"
+    "px-starter-kit-design": "^0.7.4",
+    "px-demo": "~1.4.19"
+  },
+  "resolutions": {
+    "px-number-formatter": "^3.0.4"
   }
 }
