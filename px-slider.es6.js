@@ -243,6 +243,34 @@
         },
 
         /**
+         * Specifies if the min and max slider labels should be shown
+         */
+        showLabels: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * The vertical location for the Min label. Valid values are:
+         * - 'bottom' (default)
+         * - 'top'
+         */
+        minLabelPosition: {
+          type: String,
+          value: "bottom"
+        },
+
+        /**
+         * The vertical location for the Max label. Valid values are:
+         * - 'bottom' (default)
+         * - 'top'
+         */
+        maxLabelPosition: {
+          type: String,
+          value: "bottom"
+        },
+
+        /**
          * The path definitions for the handles
          */
         _handleDefinitions: {
@@ -903,6 +931,20 @@
       this._endHandle.classed('disabled', this.disabled);
     }
 
+    /**
+     * Sets disabled  styles
+     */
+    _returnLabel(label, showLabels) {
+      return showLabels ? label : "";
+    }
+
+    _returnLabelPosition(labelPosition) {
+      return labelPosition === 'top' ? -15 : 18;
+    }
+
+    _returnLabelBaseline(labelPosition) {
+      return labelPosition === 'top' ? "baseline" : "hanging";
+    }
 
   }
   /* Register this element with the Polymer constructor */

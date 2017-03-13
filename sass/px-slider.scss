@@ -33,3 +33,9 @@ common/abstract rules go in px-slider-sketch.scss, not in this file.
   stroke: var(--px-slider-border-color--selected, $select-blue-pressed);
   fill: var(--px-slider-background-color--selected, $select-blue-default);
 }
+
+.minMaxLabel {
+  font-family: $predix-font-family;
+  font-size: 14px;
+  fill: var(--px-slider-label-color, $gray5);
+}

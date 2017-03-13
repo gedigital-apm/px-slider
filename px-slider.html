@@ -85,6 +85,25 @@ Custom property | Description | Default
           <rect class="progressBar sliderTrack" x$="[[_calcProgressStart(value, _scaleChanged, isRange)]]" y="0" rx="2" ry="2" width$="[[_calcProgressEnd(value, endValue, _scaleChanged, isRange)]]" height="10"/>
         </g>
 
+        <g id="lableContainer">
+          <text
+            id="minLabel"
+            class="minMaxLabel"
+            text-anchor="start"
+            alignment-baseline$="[[_returnLabelBaseline(minLabelPosition)]]"
+            x="0"
+            y$="[[_returnLabelPosition(minLabelPosition)]]"
+          >{{_returnLabel(min, showLabels)}}</text>
+          <text
+            id="maxLabel"
+            class="minMaxLabel"
+            text-anchor="end"
+            alignment-baseline$="[[_returnLabelBaseline(maxLabelPosition)]]"
+            x$="[[_width]]"
+            y$="[[_returnLabelPosition(maxLabelPosition)]]"
+          >{{_returnLabel(max, showLabels)}}</text>
+        </g>
+
         <g id="handleStart" class="handleGroup">
           <path class="handleDropShadow"/>
           <path class="handleBody"/>
