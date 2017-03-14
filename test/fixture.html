@@ -9,7 +9,7 @@
 -->
 <!doctype html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>seed-element</title>
@@ -25,16 +25,42 @@
     <!-- For some reason px-theme is needed for WCT to run without some errors -->
     <link rel="import" href="../../px-theme/px-theme-styles.html">
     <style include="px-theme-styles" is="custom-style"></style>
-    <script src="px-slider-base-tests.js"></script>
-    <script src="px-slider-custom-tests.js"></script>
-<body>
+    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+    <link href="../../test-fixture/test-fixture.html" rel="import">
+  </head>
+  <body>
 
-<!-- You use the document as a place to set up your fixtures. -->
-<px-slider value="10" id="px_slider_simple"></px-slider>
-<px-slider min="5.00" max="40.00" value="10.00" step=".01" id="px_slider_complex"></px-slider>
-<px-slider start-value="10" end-value="20" id="px_slider_range"></px-slider>
-<px-slider value="10" disabled="true" id="px_slider_disabled"></px-slider>
-<px-slider start-value="-30" end-value="20" min="-40" max="100" id="px_slider_range_neg"></px-slider>
-<px-slider value="10" min="1" max="100" scale="logarithmic" id="px_slider_logarithmic"></px-slider>
-</body>
+    <!-- You use the document as a place to set up your fixtures. -->
+    <test-fixture id="px_slider_simple">
+      <template>
+        <px-slider value="10"></px-slider>
+      </template>
+    </test-fixture>
+    <test-fixture id="px_slider_complex">
+      <template>
+        <px-slider min="5.00" max="40.00" value="10.00" step=".01"></px-slider>
+      </template>
+    </test-fixture>
+    <test-fixture id="px_slider_range">
+      <template>
+        <px-slider value="10" start-value="0" end-value="20" is-range></px-slider>
+      </template>
+    </test-fixture>
+    <test-fixture id="px_slider_disabled">
+      <template>
+        <px-slider value="10" disabled="true"></px-slider>
+      </template>
+    </test-fixture>
+    <test-fixture id="px_slider_range_neg">
+      <template>
+        <px-slider value="-30" end-value="20" min="-40" max="100" is-range></px-slider>
+      </template>
+    </test-fixture>
+    <test-fixture id="px_slider_logarithmic">
+      <template>
+        <px-slider value="10" min="1" max="100" scale="logarithmic" ></px-slider>
+      </template>
+    </test-fixture>
+    <script src="px-slider-custom-tests.js"></script>
+  </body>
 </html>
