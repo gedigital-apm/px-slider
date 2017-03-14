@@ -25,6 +25,7 @@ Predix branding rules go in px-slider-predix.scss, not in this file.
 @import "px-helpers-design/_generic.helpers.scss";
 
 // Base
+@import "px-typography-design/_base.typography.scss";
 @import "px-flexbox-design/_base.flexbox.scss";
 @import "px-viewport-design/_base.viewport.scss";
 
@@ -46,7 +47,7 @@ $inuit-enable-validation-states : true;
 .text-input {
   width: calculateRem(65px);
   margin-top: 11px;
-  text-align: center; 
+  text-align: center;
 }
 
 #inputStart {
@@ -56,46 +57,3 @@ $inuit-enable-validation-states : true;
 #inputEnd {
   margin-left: 5px;
 }
-
-//
-// :host {
-//   user-select: none;
-//   cursor: default;
-//   -webkit-tap-highlight-color: transparent;
-// }
-//
-// :host(:focus) {
-//   outline: none;
-// }
-//
-// .slider {
-//   margin: $inuit-base-spacing-unit--small $inuit-base-spacing-unit--tiny;
-//   position: relative;
-//   height: $inuit-base-spacing-unit--small;
-//   border: 1px solid;
-//   border-radius: 2px;
-// }
-//
-// .slider__selected {
-//   position: absolute;
-//   top: -1px;
-//   left: 0;
-//   height: $inuit-base-spacing-unit--small;
-//   border-width: 1px 0 1px 1px;
-//   border-style: solid;
-//   border-radius: 2px 0 0 2px;
-// }
-//
-// .slider__multi {
-//   margin: $inuit-base-spacing-unit--small $inuit-base-spacing-unit--small*1.5;
-//
-//   .slider__selected{
-//     border-radius: 2px 2px 2px 2px;
-//     border-width: 1px 1px 1px 1px;
-//   }
-// }
-//
-// .text-input {
-//   width: calculateRem(65px);
-// }
-// #sliderContainer {cursor:pointer;}

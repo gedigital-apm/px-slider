@@ -45,6 +45,9 @@
             max="{{props.max.value}}"
             step="{{props.step.value}}"
             is-range="{{props.isRange.value}}"
+            show-labels="{{props.showLabels.value}}"
+            min-label-position="{{props.minLabelPosition.value}}"
+            max-label-position="{{props.maxLabelPosition.value}}"
             scale="{{props.scale.value}}"
             base="{{props.base.value}}"
             exponent="{{props.exponent.value}}"
@@ -298,6 +301,26 @@
         defaultValue: 2,
         inputLabel: "Exponent (for exp scales)",
         inputType: 'text'
+      },
+
+      showLabels: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      minLabelPosition: {
+        type: String,
+        defaultValue: "bottom",
+        inputType: 'dropdown',
+        inputChoices: ['bottom', 'top']
+      },
+
+      maxLabelPosition: {
+        type: String,
+        defaultValue: "bottom",
+        inputType: 'dropdown',
+        inputChoices: ['bottom', 'top']
       },
 
       hideInputs: {
