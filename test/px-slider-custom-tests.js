@@ -1,6 +1,6 @@
 
 
-  suite('Custom Automation Tests for a simple px-slider', function() {
+  suite('Tests for a simple px-slider', function() {
     test('Check assigned value of simple px-slider', function(done){
       var sliderEl = fixture('px_slider_simple'),
           sliderValue = sliderEl.value,
@@ -12,7 +12,7 @@
       done();
     });
   });
-  suite('Custom Automation Tests for a complex px-slider', function() {
+  suite('Tests for a complex px-slider', function() {
     test('Check assigned value of complex px-slider', function(done){
       var sliderEl = fixture('px_slider_complex'),
           sliderValue = sliderEl.value,
@@ -24,7 +24,7 @@
       done();
     });
   });
-  suite('Custom Automation Tests for a multi-handle (range) px-slider', function() {
+  suite('Tests for a multi-handle (range) px-slider', function() {
     test('Check assigned values of range px-slider', function(done){
       var sliderEl = fixture('px_slider_range'),
       sliderStartValue = sliderEl.value,
@@ -38,7 +38,7 @@
       done();
     });
   });
-  suite('Custom Automation Tests for a disabled px-slider', function() {
+  suite('Tests for a disabled px-slider', function() {
     test('Check assigned value of px-slider', function(done){
       var sliderEl = fixture('px_slider_disabled'),
           sliderValue = sliderEl.value;
@@ -52,7 +52,7 @@
       done();
     });
   });
-  suite('Custom Automation Tests for a multi-handle (range) px-slider with negative range', function() {
+  suite('Tests for a multi-handle (range) px-slider with negative range', function() {
     test('Check assigned values of range px-slider', function(done){
       var sliderEl = fixture('px_slider_range_neg'),
           sliderStartValue = sliderEl.value,
@@ -66,7 +66,7 @@
       done();
     });
   });
-  suite('Custom Automation Tests for a logarithmic px-slider', function() {
+  suite('Tests for a logarithmic px-slider', function() {
     test('Check assigned values of log px-slider', function(done){
       var sliderEl = fixture('px_slider_logarithmic'),
           sliderValue = sliderEl.value,
