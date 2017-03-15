@@ -295,10 +295,10 @@
                 "linesY1": "18",
                 "linesY2": "25"
               }
-            }
+            };
           }
         }
-      }
+      };
     }
 
 
@@ -319,7 +319,7 @@
         '_updateFormat(format)',
         '_isRangeChanged(isRange)',
         '_hideInputsChanged(hideInputs)'
-      ]
+      ];
     }
 
     ready() {
@@ -379,7 +379,7 @@
           handleLines = handle.selectAll('.handleLines'),
           handleShadow = handle.select('.handleDropShadow');
 
-      handle.call(d3.drag()
+      handle.call(Px.d3.drag()
         .on("start.interrupt", function() { handle.interrupt(); })
         .on("start drag", function() {
           // apply styling
@@ -388,7 +388,7 @@
           handleShadow.classed("handleDropShadowPressed", true);
 
           // TODO for vertical: check state, pass in d3.event.y
-          this._calcSliderValue(d3.event.x, valueVar);
+          this._calcSliderValue(Px.d3.event.x, valueVar);
 
         }.bind(this))
         .on("end", function() {
@@ -426,7 +426,7 @@
      */
     _trackOnClick(elem) {
       // TODO vertical: [1]
-      var val = d3.mouse(elem)[0], // Get the mouse position
+      var val = Px.d3.mouse(elem)[0], // Get the mouse position
           prop = 'value';  //assume it should affect the left value
 
       if(this.isRange) {
@@ -558,13 +558,13 @@
      * Returns the width to be used for the svg
      */
     _getSvgWith() {
-      return this._width + this._margin.left + this._margin.right
+      return this._width + this._margin.left + this._margin.right;
     }
     /**
      * Returns the height to be used for the svg
      */
     _getSvgHeight() {
-      return this._height + this._margin.top + this._margin.bottom
+      return this._height + this._margin.top + this._margin.bottom;
     }
 
     /**
@@ -601,14 +601,14 @@
         //check that min is less than max
         if(this.min === this.max) {
           this.set('_minMaxValid', 0);
-          console.warn("Improper configuration: min and max are the same. Increasing max by step size.")
+          console.warn("Improper configuration: min and max are the same. Increasing max by step size.");
           this.set('max', this.min + this.step);
           return;
         }
 
         if(this.min > this.max) {
           this.set('_minMaxValid', 0);
-          console.warn("Improper configuration: min and max are reversed. Swapping them.")
+          console.warn("Improper configuration: min and max are reversed. Swapping them.");
           var temp = this.min;
           this.set('min', this.max);
           this.set('max', temp);
@@ -663,13 +663,14 @@
      * Set our scale's range for realz
      */
     _setRangeDebouced() {
+      var range;
       if(this.orientation === 'vertical') {
-        var h = Math.max(this._height, 0),
-            range = [h, 0];
+        var h = Math.max(this._height, 0);
+        range = [h, 0];
 
       } else {
-        var w = Math.max(this._width, 0),
-            range = [0, w];
+        var w = Math.max(this._width, 0);
+        range = [0, w];
       }
 
       this._scale.range(range);
@@ -736,7 +737,7 @@
       s = s < this.min ? s + this.step : s;
       s = s > this.max ? s - this.step : s;
 
-      return s
+      return s;
     }
 
     /**
@@ -761,7 +762,7 @@
      * Apply a transform to the handle to move it
      */
     _moveHandle(handle, v) {
-      handle.attr("transform", "translate(" + this._scale(v) + ",0)")
+      handle.attr("transform", "translate(" + this._scale(v) + ",0)");
     }
 
     /**
@@ -920,7 +921,7 @@
       this._hideInputsChanged();
 
       // rebuild the handles
-      this._buildHandles()
+      this._buildHandles();
     }
 
     /**

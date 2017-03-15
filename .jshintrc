@@ -36,6 +36,8 @@
     "test": false,
     "assert": false,
     "flush": false,
-    "fixture": false
+    "fixture": false,
+    "Px": false,
+    "PxNumberFormatter": false
   }
 }
