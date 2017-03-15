@@ -78,3 +78,49 @@
       done();
     });
   });
+  suite('Tests for a min/max labels', function() {
+    test('Check min label displayed', function(){
+      var sliderEl = fixture('px_slider_labels'),
+          minLabel = Polymer.dom(sliderEl.root).querySelector('#minLabel');
+      assert.isNotNull(minLabel, '#minLabel should be defined');
+      assert.equal(minLabel.textContent, '1', '#minLabel value should be "1"');
+      assert.equal(minLabel.textContent, sliderEl.min, '#minLabel value should be same as "min" property of slider element');
+    });
+    test('Check max label displayed', function(){
+      var sliderEl = fixture('px_slider_labels'),
+          maxLabel = Polymer.dom(sliderEl.root).querySelector('#maxLabel');
+      assert.isNotNull(maxLabel, '#maxLabel should be defined');
+      assert.equal(maxLabel.textContent, '100', '#maxLabel value should be "100"');
+      assert.equal(maxLabel.textContent, sliderEl.max, '#maxLabel value should be same as "min" property of slider element');
+    });
+    test('Check updated min property alters displayed min label', function(){
+      var sliderEl = fixture('px_slider_labels'),
+          minLabel = Polymer.dom(sliderEl.root).querySelector('#minLabel');
+
+      assert.equal(minLabel.textContent, '1', '#minLabel value should be "1"');
+      sliderEl.min = 2;
+      assert.equal(minLabel.textContent, '2', '#minLabel value should be "2"');
+      assert.equal(minLabel.textContent, sliderEl.min, '#minLabel value should be same as "min" property of slider element');
+    });
+    test('Check updated max property alters displayed max label', function(){
+      var sliderEl = fixture('px_slider_labels'),
+          maxLabel = Polymer.dom(sliderEl.root).querySelector('#maxLabel');
+
+      assert.equal(maxLabel.textContent, '100', '#maxLabel value should be "100"');
+      sliderEl.max = 200;
+      assert.equal(maxLabel.textContent, '200', '#maxLabel value should be "200"');
+      assert.equal(maxLabel.textContent, sliderEl.max, '#maxLabel value should be same as "min" property of slider element');
+    });
+    test('Check updated removing "show-labels" property remove labels from slider', function(){
+      var sliderEl = fixture('px_slider_labels'),
+          maxLabel = Polymer.dom(sliderEl.root).querySelector('#maxLabel'),
+          minLabel = Polymer.dom(sliderEl.root).querySelector('#minLabel');
+
+      assert.equal(minLabel.textContent, '1', '#minLabel value should be "1"');
+      assert.equal(maxLabel.textContent, '100', '#maxLabel value should be "100"');
+      sliderEl.showLabels = false;
+      assert.equal(minLabel.textContent, '', '#minLabel value should be empty string');
+      assert.equal(maxLabel.textContent, '', '#maxLabel value should be empty string');
+
+    });
+  });
