@@ -1,3 +1,7 @@
+v1.0.0
+==================
+* 
+
 v0.8.5
 ==================
 * fixed spacing per design feedback
