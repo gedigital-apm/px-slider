@@ -1,6 +1,16 @@
 v1.0.0
 ==================
-* 
+* Refactored code
+* Leverage d3 for calc scales and some other methods
+* Leverage SVG for slider pieces for versatility and control
+* Added ability to specify different logs
+* Added power scale and what kind of power scale
+* Added optional min and max labels
+* Added Validation errors on input boxes
+* Clicking on blue progress bar now jumps closest handle with ranged slider
+* Fixes various bugs
+* Many stability improvements
+* Updated demo
 
 v0.8.5
 ==================
