@@ -7,6 +7,7 @@ v1.0.0
 * Added power scale and what kind of power scale
 * Added optional min and max labels
 * Added Validation errors on input boxes
+* Added ability to use ESC to reset invalid input box entries
 * Clicking on blue progress bar now jumps closest handle with ranged slider
 * Fixes various bugs
 * Many stability improvements
