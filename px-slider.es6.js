@@ -741,11 +741,48 @@
     }
 
     /**
+     * Validate the value
+     */
+    _validateValue(v, thisVal) {
+      var valid = true;
+      // check that value <= endValue
+      if(this.isRange && thisVal === 'value' && v > this.endValue) {
+        v = this.endValue;
+        valid = false;
+        this.set(thisVal, v);
+
+      // check that endValue <= vale
+      } else if(this.isRange && thisVal === 'endValue' && v < this.value) {
+        v = this.value;
+        valid = false;
+        this.set(thisVal, v);
+      }
+
+      // check v is greater than the min
+      if(v < this.min) {
+        v = this._calcStepRounded(this.min);
+        valid = false;
+        this.set(thisVal, v);
+
+      // check v is less than the max
+      } else if(v > this.max) {
+        v = this._calcStepRounded(this.max);
+        valid = false;
+        this.set(thisVal, v);
+      }
+
+      return valid;
+    }
+
+    /**
      * When the value property changes, sync the handle position
      */
     _valueChanged(v) {
       if(this._startHandle) {
-        this._moveHandle(this._startHandle, v);
+        var valid = this._validateValue(v, 'value');
+        if(valid) {
+          this._moveHandle(this._startHandle, v);
+        }
       }
     }
 
@@ -753,8 +790,11 @@
      * When the endValue property changes, sync the handle position
      */
     _endValueChanged(v) {
-      if(v && this._endHandle) {
-        this._moveHandle(this._endHandle, v);
+      if(v !== null && this._endHandle) {
+        var valid = this._validateValue(v, 'endValue');
+        if(valid) {
+          this._moveHandle(this._endHandle, v);
+        }
       }
     }
 
