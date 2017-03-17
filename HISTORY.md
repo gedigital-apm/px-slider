@@ -1,3 +1,7 @@
+v1.0.1
+==================
+* Simplify sass build
+
 v1.0.0
 ==================
 * Refactored code

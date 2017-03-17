@@ -22,7 +22,43 @@ common/abstract rules go in px-slider-sketch.scss, not in this file.
 // Settings
 @import "px-colors-design/_settings.colors.scss";
 
-@import 'px-slider-sketch.scss';
+@import "px-normalize-design/_generic.normalize.scss";
+@import "px-box-sizing-design/_generic.box-sizing.scss";
+@import "px-helpers-design/_generic.helpers.scss";
+
+// Base
+@import "px-typography-design/_base.typography.scss";
+@import "px-flexbox-design/_base.flexbox.scss";
+@import "px-viewport-design/_base.viewport.scss";
+
+$inuit-enable-input--tiny : true;
+$inuit-enable-validation-states : true;
+@import "px-forms-design/_base.forms.scss";
+
+// Component
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.flex__item--no-grow {
+    flex: 0 1 auto;
+}
+
+.text-input {
+  width: calculateRem(65px);
+  margin-top: 11px;
+  text-align: center;
+}
+
+#inputStart {
+  margin-right: 5px;
+}
+
+#inputEnd {
+  margin-left: 5px;
+}
 
 .backgroundTrack {
   stroke: var(--px-slider-border-color, $gray5);
