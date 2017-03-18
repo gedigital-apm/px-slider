@@ -301,6 +301,10 @@
       window.requestAnimationFrame(this._animationFrame.bind(this));
     },
 
+    attached() {
+      this.setAttribute('role','slider');
+    },
+
     /**
      * Do general setup on our svg once we have an animation frame and know stuff exists
      * - create listeners
@@ -572,7 +576,7 @@
      * Validates the the min and max values to ensure that the min is < the max
      */
     _minOrMaxChanged() {
-        var min, max;
+        // var min, max;
         //check that min is less than max
         if(this.min === this.max) {
           this.set('_minMaxValid', 0);
@@ -589,6 +593,8 @@
           this.set('max', temp);
           return;
         }
+        this.setAttribute('aria-valuemin', this.min);
+        this.setAttribute('aria-valuemax', this.max);
 
         // validation passes: trigger set domain
         // apparently, it is possible to run this before polymer property defaults can be applied, so check that _minMaxValid is defined
@@ -757,6 +763,7 @@
         var valid = this._validateValue(v, 'value');
         if(valid) {
           this._moveHandle(this._startHandle, v);
+          this.setAttribute('aria-valuenow',v);
         }
       }
     },

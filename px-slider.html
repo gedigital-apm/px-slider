@@ -44,6 +44,7 @@ Custom property | Description | Default
 
   <div id="wrapper" class="flex">
     <template is="dom-if" if="[[_showStartInput]]">
+      <label for="inputStart" class="visuallyhidden">Value or Start Value</label>
       <input id="inputStart"
         type="text"
         class="text-input flex__item--no-grow"
@@ -85,7 +86,7 @@ Custom property | Description | Default
           <rect class="progressBar sliderTrack" x$="[[_calcProgressStart(value, _scaleChanged, isRange)]]" y="0" rx="2" ry="2" width$="[[_calcProgressEnd(value, endValue, _scaleChanged, isRange)]]" height="10"/>
         </g>
 
-        <g id="lableContainer">
+        <g id="labelContainer">
           <text
             id="minLabel"
             class="minMaxLabel"
@@ -122,6 +123,7 @@ Custom property | Description | Default
     </svg>
 
     <template is="dom-if" if="[[_showEndInput]]">
+      <label for="inputEnd" class="visuallyhidden">End Value</label>
       <input id="inputEnd"
         type="text"
         class="text-input input--tiny flex__item--no-grow"

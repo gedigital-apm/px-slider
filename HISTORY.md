@@ -1,3 +1,8 @@
+v1.0.2
+==================
+* Improved accessibility
+* Updated demo dependency
+
 v1.0.1
 ==================
 * Simplify sass build
