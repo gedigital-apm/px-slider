@@ -1,3 +1,7 @@
+v1.0.3
+==================
+* Adding polygit import to fix codepen
+
 v1.0.2
 ==================
 * Improved accessibility
