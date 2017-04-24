@@ -9,13 +9,12 @@
  */
 
 // Generic
-@import "px-colors-design/_settings.colors.scss";
 @import "px-defaults-design/_settings.defaults.scss";
 
-$px-handle-white : var(--px-handle-background-color, $white);
-$px-handle-gray8 : var(--px-handle-stroke-color, $gray8);
-$px-handle-gray4 : var(--px-handle-color--disabled, $gray4);
-$px-handle-gray7 : var(--px-handle-background-color--active, $gray7);
+$px-handle-white : var(--px-handle-background-color, white);
+$px-handle-gray8 : var(--px-handle-stroke-color, black);
+$px-handle-gray4 : var(--px-handle-color--disabled, gray);
+$px-handle-gray7 : var(--px-handle-background-color--active, black);
 
 
 
