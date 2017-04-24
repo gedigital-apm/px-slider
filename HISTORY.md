@@ -1,3 +1,7 @@
+v2.0.0-prerelease
+==================
+* component redesign
+
 v1.0.3
 ==================
 * Adding polygit import to fix codepen

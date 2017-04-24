@@ -1,6 +1,6 @@
 {
   "name": "px-slider",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "main": [
     "px-slider.html"
   ],
@@ -20,14 +20,15 @@
   ],
   "dependencies": {
     "polymer": "^v1.8.1",
-    "px-theme": "^2.0.4",
     "px-d3-imports": "^1.0.1",
     "iron-resizable-behavior": "~v1.0.5",
     "px-number-formatter": "^3.0.4",
     "iron-a11y-keys": "~1.0.7"
   },
   "devDependencies": {
-    "px-starter-kit-design": "^0.7.4",
-    "px-demo": "^1.4.0"
+    "px-theme": "^3.0.0",
+    "px-starter-kit-design": "^1.0.0",
+    "px-demo": "^2.0.0",
+    "px-helpers-design": "^1.0.0"
   }
 }

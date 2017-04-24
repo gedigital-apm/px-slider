@@ -200,6 +200,20 @@
       },
 
       /**
+       * A holder for the progress bar d3 selected elem
+       */
+      _progressBar: {
+        type: Object
+      },
+
+      /**
+       * A holder for the background track d3 selected elem
+       */
+      _backgroundTrack: {
+        type: Object
+      },
+
+      /**
        * A holder for the start input elem
        */
       _inputStart: {
@@ -256,23 +270,14 @@
         type: Object,
         value: function() {
           return {
-            "square": {
-              "shadowD": "M-11,-1a3,3,0,0,1,3-3h16a3,3,0,0,1,3,3v15a3,3,0,0,1,-3,3h-16a3,3,0,0,1,-3-3Z",
-              "bodyD": "M-11,-2a3,3,0,0,1,3-3h16a3,3,0,0,1,3,3v15a3,3,0,0,1,-3,3h-16a3,3,0,0,1,-3-3Z",
-              "linesY1": "2",
-              "linesY2": "9"
+            "circle": {
+              "bodyD": "m0,-7.5c5,0 10,5 10,10c0,5 -5,10 -10,10c-5,0 -10,-5 -10,-10c0,-5 5,-10 10,-10z",
             },
             "down": {
-              "shadowD": "M-10.5,-16a3,3,0,0,1,3-3h16a3,3,0,0,1,3,3v9l-10.5,8h-1l-10.5,-8Z",
-              "bodyD": "M-10.5,-17a3,3,0,0,1,3-3h16a3,3,0,0,1,3,3v9l-10.5,8h-1l-10.5,-8Z",
-              "linesY1": "-15",
-              "linesY2": "-8"
+              "bodyD": "m7.5,-13l-15,0l7.5,12l7.5,-12z",
             },
             "up": {
-              "shadowD": "M11,18.5v9c0,1.7-1.3,3-3,3h-16c-1.7,0-3-1.3-3-3v-9l10.5,-8h1l10.5,8Z",
-              "bodyD": "M11,17.5v9c0,1.7-1.3,3-3,3h-16c-1.7,0-3-1.3-3-3v-9l10.5,-8h1l10.5,8Z",
-              "linesY1": "18",
-              "linesY2": "25"
+              "bodyD": "m7.5,18l-15,0l7.5,-12l7.5,12z",
             }
           };
         }
@@ -315,10 +320,14 @@
       // since the group elems both exist, we dont have to do anything on isRange change
       var startHandle = Px.d3.select(this.$$('#handleStart'));
       var endHandle = Px.d3.select(this.$$('#handleEnd'));
+      var progressBar = Px.d3.select(this.$$('#progressBar'));
+      var backgroundTrack = Px.d3.select(this.$$('#backgroundTrack'));
 
       // save the d3 selected handles
       this.set('_startHandle', startHandle);
       this.set('_endHandle', endHandle);
+      this.set('_progressBar', progressBar);
+      this.set('_backgroundTrack', backgroundTrack);
 
       // initial config for our handle paths
       this._buildHandles();
@@ -354,17 +363,13 @@
      * Creates the drag behavior and hover, pressed states for the handles.
      */
     _createHandleListeners(handle, valueVar) {
-      var handleBody = handle.select('.handleBody'),
-          handleLines = handle.selectAll('.handleLines'),
-          handleShadow = handle.select('.handleDropShadow');
+      var handleBody = handle.select('.handleBody');
 
       handle.call(Px.d3.drag()
         .on("start.interrupt", function() { handle.interrupt(); })
         .on("start drag", function() {
           // apply styling
           handleBody.classed("handleBodyPressed", true);
-          handleLines.classed("handleLinesPressed", true);
-          handleShadow.classed("handleDropShadowPressed", true);
 
           // TODO for vertical: check state, pass in d3.event.y
           this._calcSliderValue(Px.d3.event.x, valueVar);
@@ -373,17 +378,13 @@
         .on("end", function() {
           // remove styling
           handleBody.classed("handleBodyPressed", false);
-          handleLines.classed("handleLinesPressed", false);
-          handleShadow.classed("handleDropShadowPressed", false);
         })
       )
       .on("mouseenter", function() {
         handleBody.classed("handleBodyHover", true);
-        handleLines.classed("handleBodyHover", true);
       })
       .on("mouseleave", function() {
         handleBody.classed("handleBodyHover", false);
-        handleLines.classed("handleBodyHover", false);
       });
     },
 
@@ -446,39 +447,19 @@
       if(this._handleDefinitions && this._startHandle && this._endHandle) {
         if(this.isRange) {
 
-          this._startHandle.select('.handleDropShadow')
-            .attr("d", this._handleDefinitions.up.shadowD);
           this._startHandle.select('.handleBody')
             .attr("d", this._handleDefinitions.up.bodyD);
-          this._startHandle.selectAll('.handleLines')
-            .attr("y1", this._handleDefinitions.up.linesY1)
-            .attr("y2", this._handleDefinitions.up.linesY2);
 
-          this._endHandle.select('.handleDropShadow')
-            .attr("d", this._handleDefinitions.down.shadowD);
           this._endHandle.select('.handleBody')
             .attr("d", this._handleDefinitions.down.bodyD);
-          this._endHandle.selectAll('.handleLines')
-            .attr("y1", this._handleDefinitions.down.linesY1)
-            .attr("y2", this._handleDefinitions.down.linesY2);
 
         } else {
-          this._startHandle.select('.handleDropShadow')
-            .attr("d", this._handleDefinitions.square.shadowD);
           this._startHandle.select('.handleBody')
-            .attr("d", this._handleDefinitions.square.bodyD);
-          this._startHandle.selectAll('.handleLines')
-            .attr("y1", this._handleDefinitions.square.linesY1)
-            .attr("y2", this._handleDefinitions.square.linesY2);
+            .attr("d", this._handleDefinitions.circle.bodyD);
 
           // remove end handle:
-          this._endHandle.select('.handleDropShadow')
-            .attr("d", null);
           this._endHandle.select('.handleBody')
             .attr("d", null);
-          this._endHandle.selectAll('.handleLines')
-            .attr("y1", null)
-            .attr("y2", null);
         }
       }
     },
@@ -952,6 +933,8 @@
     _toggleDisabledClass() {
       this._startHandle.classed('disabled', this.disabled);
       this._endHandle.classed('disabled', this.disabled);
+      this._progressBar.classed('disabled', this.disabled);
+      this._backgroundTrack.classed('disabled', this.disabled);
     },
 
     /**
