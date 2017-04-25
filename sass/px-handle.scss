@@ -28,6 +28,7 @@ $px-handle-gray7 : var(--px-handle-background-color--active, black);
     fill:$px-handle-white;
     stroke:$px-handle-gray8;
     stroke-miterlimit:10;
+    transition: all 0.4s;
   }
 
   .handleBodyHover {

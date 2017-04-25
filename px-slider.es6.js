@@ -364,12 +364,14 @@
      */
     _createHandleListeners(handle, valueVar) {
       var handleBody = handle.select('.handleBody');
+      var progressBar = Px.d3.select(this.$$('.progressBar'));
 
       handle.call(Px.d3.drag()
         .on("start.interrupt", function() { handle.interrupt(); })
         .on("start drag", function() {
           // apply styling
           handleBody.classed("handleBodyPressed", true);
+          progressBar.classed("progressBarPressed", true);
 
           // TODO for vertical: check state, pass in d3.event.y
           this._calcSliderValue(Px.d3.event.x, valueVar);
@@ -378,13 +380,16 @@
         .on("end", function() {
           // remove styling
           handleBody.classed("handleBodyPressed", false);
+          progressBar.classed("progressBarPressed", false);
         })
       )
       .on("mouseenter", function() {
         handleBody.classed("handleBodyHover", true);
+        progressBar.classed("progressBarHover", true);
       })
       .on("mouseleave", function() {
         handleBody.classed("handleBodyHover", false);
+        progressBar.classed("progressBarHover", false);
       });
     },
 

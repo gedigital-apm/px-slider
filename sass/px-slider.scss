@@ -51,6 +51,7 @@ $inuit-enable-validation-states : true;
 .backgroundTrack {
   stroke: var(--px-slider-border-color, black);
   fill: var(--px-slider-background-color, white);
+  transition: all 0.4s;
 }
 
 #backgroundTrack.disabled .backgroundTrack {
@@ -61,6 +62,17 @@ $inuit-enable-validation-states : true;
 .progressBar {
   stroke: var(--px-slider-border-color--selected, black);
   fill: var(--px-slider-background-color--selected, black);
+  transition: fill 0.4s;
+}
+
+.progressBarHover {
+  stroke: var(--px-slider-background-color--hover, black);
+  fill: var(--px-slider-background-color--hover, black);
+}
+
+.progressBarPressed {
+  stroke: var(--px-slider-background-color--pressed, black);
+  fill: var(--px-slider-background-color--pressed, black);
 }
 
 #progressBar.disabled .progressBar {
