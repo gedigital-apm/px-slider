@@ -55,7 +55,7 @@ $inuit-enable-validation-states : true;
 }
 
 #backgroundTrack.disabled .backgroundTrack {
-  stroke: var(--px-handle-border-color--disabled, black);
+  stroke: var(--px-slider-border-color--disabled, black);
   fill: var(--px-slider-background-color--disabled, white);
 }
 
@@ -76,8 +76,8 @@ $inuit-enable-validation-states : true;
 }
 
 #progressBar.disabled .progressBar {
-  stroke: var(--px-handle-border-color--disabled, gray);
-  fill: var(--px-handle-border-color--disabled, gray);
+  stroke: var(--px-slider-progress-border-color--disabled, gray);
+  fill: var(--px-slider-progress-background-color--disabled, gray);
 }
 
 .minMaxLabel {
