@@ -20,16 +20,17 @@
     "*.png"
   ],
   "dependencies": {
-    "polymer": "^v1.8.1",
+    "polymer": "^1.8.1",
     "px-d3-imports": "^1.0.1",
-    "iron-resizable-behavior": "~v1.0.5",
-    "px-number-formatter": "^3.0.4",
+    "iron-resizable-behavior": "~1.0.5",
+    "px-number-formatter": "^4.0.0",
     "iron-a11y-keys": "~1.0.7"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
     "px-starter-kit-design": "^1.0.0",
     "px-demo": "^2.0.0",
-    "px-helpers-design": "^1.0.0"
+    "px-helpers-design": "^1.0.0",
+    "px-forms-design": "^2.0.0"
   }
 }
