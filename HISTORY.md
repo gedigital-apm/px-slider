@@ -1,3 +1,7 @@
+v2.0.0-prerelease-2
+==================
+* merge and rebuild css, fix variables for theming
+
 v2.0.0-prerelease-1
 ==================
 * add hover/pressed state for progressbar, css transition

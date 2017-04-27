@@ -11,45 +11,37 @@
 // Generic
 @import "px-defaults-design/_settings.defaults.scss";
 
-$px-handle-white : var(--px-handle-background-color, white);
-$px-handle-gray8 : var(--px-handle-stroke-color, black);
-$px-handle-gray4 : var(--px-handle-color--disabled, gray);
-$px-handle-gray7 : var(--px-handle-background-color--active, black);
-
-
-
-
-// // Component
+// Component
 
 .handleGroup {
   cursor: pointer;
 
   .handleBody{
-    fill:$px-handle-white;
-    stroke:$px-handle-gray8;
+    fill: var(--px-handle-background-color, white);
+    stroke: var(--px-handle-stroke-color, black);
     stroke-miterlimit:10;
     transition: all 0.4s;
   }
 
   .handleBodyHover {
-    fill: $px-handle-gray4;
-    stroke: $px-handle-gray8;
+    fill: var(--px-handle-background-color--hover, gray);
+    stroke: var(--px-handle-stroke-color--hover, black);
   }
   .handleBodyPressed {
-    fill:$px-handle-gray7;
-    stroke:$px-handle-gray8;
+    fill: var(--px-handle-background-color--active, black);
+    stroke: var(--px-handle-stroke-color--active, black);
   }
   &.disabled {
     cursor: not-allowed;
-    border-color: $px-handle-gray4;
-    background-color: $px-handle-white;
+    border-color: var(--px-handle-color--disabled, gray);
+    background-color:  var(--px-handle-color-disabled, gray);
     box-shadow: none;
     svg {
-      stroke: $px-handle-gray4;
+      stroke: var(--px-handle-color--disabled, gray);
     }
     .handleBody{
-      fill:$px-handle-white;
-      stroke:$px-handle-gray4;
+      fill: var(--px-slider-background-color, gray);
+      stroke: var(--px-handle-color--disabled, gray);
     }
   }
 }
