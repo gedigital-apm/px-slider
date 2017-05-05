@@ -15,7 +15,7 @@
 @import "px-helpers-design/_generic.helpers.scss";
 
 // Base
-@import "px-typography-design/_base.typography.scss";
+
 @import "px-flexbox-design/_base.flexbox.scss";
 @import "px-viewport-design/_base.viewport.scss";
 
@@ -81,7 +81,6 @@ $inuit-enable-validation-states : true;
 }
 
 .minMaxLabel {
-  font-family: $predix-font-family;
   font-size: 14px;
   fill: var(--px-slider-label-color, black);
 }
