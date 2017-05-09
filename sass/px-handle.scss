@@ -34,13 +34,13 @@
   &.disabled {
     cursor: not-allowed;
     border-color: var(--px-handle-color--disabled, gray);
-    background-color:  var(--px-handle-color-disabled, gray);
+    background-color:  var(--px-handle-background-color--disabled, gray);
     box-shadow: none;
     svg {
       stroke: var(--px-handle-color--disabled, gray);
     }
     .handleBody{
-      fill: var(--px-slider-background-color, gray);
+      fill: var(--px-handle-background-color--disabled, gray);
       stroke: var(--px-handle-color--disabled, gray);
     }
   }

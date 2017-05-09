@@ -453,10 +453,10 @@
         if(this.isRange) {
 
           this._startHandle.select('.handleBody')
-            .attr("d", this._handleDefinitions.up.bodyD);
+            .attr("d", this._handleDefinitions.down.bodyD);
 
           this._endHandle.select('.handleBody')
-            .attr("d", this._handleDefinitions.down.bodyD);
+            .attr("d", this._handleDefinitions.up.bodyD);
 
         } else {
           this._startHandle.select('.handleBody')
