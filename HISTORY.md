@@ -1,13 +1,7 @@
-v2.0.0-prerelease-2
+v2.0.0
 ==================
 * merge and rebuild css, fix variables for theming
-
-v2.0.0-prerelease-1
-==================
 * add hover/pressed state for progressbar, css transition
-
-v2.0.0-prerelease
-==================
 * component redesign
 
 v1.0.3
