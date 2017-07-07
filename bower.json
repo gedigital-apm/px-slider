@@ -22,9 +22,9 @@
   "dependencies": {
     "polymer": "^1.9.0",
     "px-d3-imports": "^1.0.1",
-    "iron-resizable-behavior": "~1.0.5",
+    "iron-resizable-behavior": "^2.0.0",
     "px-number-formatter": "^4.0.0",
-    "iron-a11y-keys": "~1.0.7"
+    "iron-a11y-keys": "^2.0.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
@@ -32,5 +32,8 @@
     "px-demo": "^2.0.0",
     "px-helpers-design": "^1.0.0",
     "px-forms-design": "^2.0.0"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.24"
   }
 }
