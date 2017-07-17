@@ -1,14 +1,8 @@
 # px-slider [![Build Status](https://travis-ci.org/PredixDev/px-slider.svg?branch=master)](https://travis-ci.org/PredixDev/px-slider)
 
-[![px-slider demo](px-slider.png?raw=true)](https://github.com/PredixDev/px-slider)
-
 ## Overview
 
-The px-slider is a Predix UI component for defining a value in a range or a range of values within set boundaries.
-
-## documentation
-
-Read the full API and view the demo [here](https://predixdev.github.io/px-slider).
+Px-slider is a Predix UI component used to define a value in a range or a range of values within set boundaries.
 
 ## Usage
 
@@ -70,6 +64,9 @@ Single-handled slider with step
 The slider will always take the full-width of whatever container it is in.
 If resized or made visible for the first time (if the slider was in a modal for example) then the slider will need to be notified through the [iron-resizable-behavior](https://elements.polymer-project.org/elements/iron-resizable-behavior?active=Polymer.IronResizableBehavior), by - for example - manually calling `notifyResize()` on it.
 
+## Documentation
+
+Read the full API and view the demo [here](https://predixdev.github.io/px-slider).
 
 ## Local Development
 
