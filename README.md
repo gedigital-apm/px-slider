@@ -2,7 +2,7 @@
 
 ## Overview
 
-Px-slider is a Predix UI component used to define a value in a range or a range of values within set boundaries.
+`Px-slider` is a Predix UI component used to define a value in a range or a range of values within set boundaries.
 
 ## Usage
 
@@ -12,17 +12,17 @@ Px-slider is a Predix UI component used to define a value in a range or a range 
 3. bower
 4. [webcomponents-lite.js polyfill](https://github.com/webcomponents/webcomponentsjs)
 
-Node, npm and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
+Node, npm, and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
 
 ### Getting Started
 
-First, install the component via bower on the command line.
+First, install the component via bower on the command line:
 
 ```
 bower install px-slider --save
 ```
 
-Second, import the component to your application with the following tag in your head.
+Second, import the component in your application with the following tag in your head:
 
 ```
 <link rel="import" href="/bower_components/px-slider/px-slider.html"/>
@@ -61,7 +61,7 @@ Single-handled slider with step
 
 ### Layout
 
-The slider will always take the full-width of whatever container it is in.
+The `px-slider` will always take the full-width of whatever container it is in.
 If resized or made visible for the first time (if the slider was in a modal for example) then the slider will need to be notified through the [iron-resizable-behavior](https://elements.polymer-project.org/elements/iron-resizable-behavior?active=Polymer.IronResizableBehavior), by - for example - manually calling `notifyResize()` on it.
 
 ## Documentation
