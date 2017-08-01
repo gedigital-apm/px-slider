@@ -1,3 +1,7 @@
+v2.0.1
+==================
+* fix css vars and pick up label color fix from theme
+
 v2.0.0
 ==================
 * merge and rebuild css, fix variables for theming

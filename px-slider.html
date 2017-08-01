@@ -6,9 +6,8 @@
 <link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html" />
 
 <!--
-Allow the user to select a value or range of values within a specified min and max.
 
-##### Usage
+### Usage
 
     <px-slider value="50" min="1" max="100"></px-slider>
 
@@ -19,10 +18,27 @@ Custom property | Description
 :---------------|:-------------
 `--px-slider-border-color` | Border color for the unselected portion of the slider
 `--px-slider-border-color--selected` | Border color for the selected portion of the slider
-`--px-handle-border-color--disabled` | Border color for the handle when disabled
+`--px-slider-border-color--disabled` | Border color for the unselected portion of the slider when disabled
+`--px-slider-progress-border-color--disabled` | Border color for the selected portion of the slider when disabled
+|
 `--px-slider-background-color` | Background color for the unselected portion of the slider
 `--px-slider-background-color--selected` | Background color for the selected portion of the slider
-`--px-handle-background-color--hover` | Background color when the handle is pressed
+`--px-slider-background-color--hover` | Background color for the selected portion of the slider when hovered
+`--px-slider-background-color--pressed` | Background color for the selected portion of the slider when pressed
+`--px-slider-background-color--disabled` | Background color for the unselected portion of the slider when disabled
+`--px-slider-progress-background-color--disabled` | Background color for the selected portion of the slider when disabled
+|
+`--px-handle-stroke-color` | Border color for the handle
+`--px-handle-stroke-color--hover` | Border color for the handle when hovered
+`--px-handle-stroke-color--active` | Border color for the handle when pressed
+`--px-handle-color--disabled` | Border color for the handle when disabled
+|
+`--px-handle-background-color` | Background color for the handle
+`--px-handle-background-color--hover` | Background color for the handle when hovered
+`--px-handle-background-color--active` | Background color for the handle when pressed
+`--px-handle-background-color--disabled` | Background color for the handle when disabled
+|
+`--px-slider-label-color` | Text color for the min/max labels
 
 @element px-slider
 @blurb Allow the user to select a value or range of values within a specified min and max.
