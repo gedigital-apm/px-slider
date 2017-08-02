@@ -9,7 +9,7 @@
        */
       _height: {
         type: Number,
-        value: 52
+        value: 10
       },
 
       /**
@@ -28,10 +28,10 @@
         notify: true,
         value: function() {
           return {
-            left: 13,
-            right: 13,
-            top: 21,
-            bottom: 21
+            left: 15,
+            right: 15,
+            top: 35,
+            bottom: 35
           };
         }
       },
@@ -228,6 +228,20 @@
       },
 
       /**
+       * A holder for the min label
+       */
+      _minLabel: {
+        type: Object
+      },
+
+      /**
+       * A holder for the max label
+       */
+      _maxLabel: {
+        type: Object
+      },
+
+      /**
        * The format string used to format the number in the input box
        */
       _format: {
@@ -322,12 +336,16 @@
       var endHandle = Px.d3.select(this.$$('#handleEnd'));
       var progressBar = Px.d3.select(this.$$('#progressBar'));
       var backgroundTrack = Px.d3.select(this.$$('#backgroundTrack'));
+      var minLabel = Px.d3.select(this.$$('#minLabel'));
+      var maxLabel = Px.d3.select(this.$$('#maxLabel'));
 
       // save the d3 selected handles
       this.set('_startHandle', startHandle);
       this.set('_endHandle', endHandle);
       this.set('_progressBar', progressBar);
       this.set('_backgroundTrack', backgroundTrack);
+      this.set('_minLabel', minLabel);
+      this.set('_maxLabel', maxLabel);
 
       // initial config for our handle paths
       this._buildHandles();
@@ -940,17 +958,21 @@
       this._endHandle.classed('disabled', this.disabled);
       this._progressBar.classed('disabled', this.disabled);
       this._backgroundTrack.classed('disabled', this.disabled);
+      this._minLabel.classed('disabled', this.disabled);
+      this._maxLabel.classed('disabled', this.disabled);
     },
 
-    /**
-     * Sets disabled  styles
-     */
     _returnLabel(label, showLabels) {
       return showLabels ? label : "";
     },
 
-    _returnLabelPosition(labelPosition) {
-      return labelPosition === 'top' ? -15 : 18;
+    _returnLabelPosition(labelPosition, isRange) {
+      if(isRange) {
+        return labelPosition === 'top' ? -20 : 24;
+      }
+      else {
+        return labelPosition === 'top' ? -15 : 19;
+      }
     },
 
     _returnLabelBaseline(labelPosition) {

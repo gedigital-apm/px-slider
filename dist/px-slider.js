@@ -1,10 +1,10 @@
 'use strict';(function(){'use strict';Polymer({is:'px-slider',properties:{/**
        * Height of the svg: calculated from container size
-       */_height:{type:Number,value:52},/**
+       */_height:{type:Number,value:10},/**
        * Width of the svg: calculated from container size
        */_width:{type:Number,value:52},/**
        * Margin for the svg elems centering the bars and providing space around them for the handles
-       */_margin:{type:Object,notify:true,value:function value(){return{left:13,right:13,top:21,bottom:21}}},/**
+       */_margin:{type:Object,notify:true,value:function value(){return{left:15,right:15,top:35,bottom:35}}},/**
       * For single sliders: the value for the slider's handle.
       * For multi-handled/ranged sliders: the value for the left / start slider's handle.
       */value:{type:Number,notify:true,value:0},/**
@@ -61,6 +61,10 @@
        */_inputStart:{type:HTMLElement},/**
        * A holder for the end input elem
        */_inputEnd:{type:HTMLElement},/**
+       * A holder for the min label
+       */_minLabel:{type:Object},/**
+       * A holder for the max label
+       */_maxLabel:{type:Object},/**
        * The format string used to format the number in the input box
        */_format:{type:String,value:'0'},/**
        * Specifies if the min and max slider labels should be shown
@@ -80,8 +84,8 @@
      * - draw our handles
      */_animationFrame:function _animationFrame(){// get the d3 selected handles
 // since the group elems both exist, we dont have to do anything on isRange change
-var startHandle=Px.d3.select(this.$$('#handleStart'));var endHandle=Px.d3.select(this.$$('#handleEnd'));var progressBar=Px.d3.select(this.$$('#progressBar'));var backgroundTrack=Px.d3.select(this.$$('#backgroundTrack'));// save the d3 selected handles
-this.set('_startHandle',startHandle);this.set('_endHandle',endHandle);this.set('_progressBar',progressBar);this.set('_backgroundTrack',backgroundTrack);// initial config for our handle paths
+var startHandle=Px.d3.select(this.$$('#handleStart'));var endHandle=Px.d3.select(this.$$('#handleEnd'));var progressBar=Px.d3.select(this.$$('#progressBar'));var backgroundTrack=Px.d3.select(this.$$('#backgroundTrack'));var minLabel=Px.d3.select(this.$$('#minLabel'));var maxLabel=Px.d3.select(this.$$('#maxLabel'));// save the d3 selected handles
+this.set('_startHandle',startHandle);this.set('_endHandle',endHandle);this.set('_progressBar',progressBar);this.set('_backgroundTrack',backgroundTrack);this.set('_minLabel',minLabel);this.set('_maxLabel',maxLabel);// initial config for our handle paths
 this._buildHandles();// set up our listeners
 this._setupListeners()},/**
      * Setup our listeners
@@ -222,7 +226,5 @@ this._checkEndValue();// check if we need to change inputs shown
 this._hideInputsChanged();// rebuild the handles
 this._buildHandles()},/**
      * Sets disabled  styles
-     */_toggleDisabledClass:function _toggleDisabledClass(){this._startHandle.classed('disabled',this.disabled);this._endHandle.classed('disabled',this.disabled);this._progressBar.classed('disabled',this.disabled);this._backgroundTrack.classed('disabled',this.disabled)},/**
-     * Sets disabled  styles
-     */_returnLabel:function _returnLabel(label,showLabels){return showLabels?label:''},_returnLabelPosition:function _returnLabelPosition(labelPosition){return labelPosition==='top'?-15:18},_returnLabelBaseline:function _returnLabelBaseline(labelPosition){return labelPosition==='top'?'baseline':'hanging'}})})();
+     */_toggleDisabledClass:function _toggleDisabledClass(){this._startHandle.classed('disabled',this.disabled);this._endHandle.classed('disabled',this.disabled);this._progressBar.classed('disabled',this.disabled);this._backgroundTrack.classed('disabled',this.disabled);this._minLabel.classed('disabled',this.disabled);this._maxLabel.classed('disabled',this.disabled)},_returnLabel:function _returnLabel(label,showLabels){return showLabels?label:''},_returnLabelPosition:function _returnLabelPosition(labelPosition,isRange){if(isRange){return labelPosition==='top'?-20:24}else{return labelPosition==='top'?-15:19}},_returnLabelBaseline:function _returnLabelBaseline(labelPosition){return labelPosition==='top'?'baseline':'hanging'}})})();
 //# sourceMappingURL=px-slider.js.map

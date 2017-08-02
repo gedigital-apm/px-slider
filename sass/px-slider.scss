@@ -30,13 +30,9 @@ $inuit-enable-validation-states : true;
     height: 100%;
 }
 
-.flex__item--no-grow {
-    flex: 0 1 auto;
-}
-
 .text-input {
   width: calculateRem(65px);
-  margin-top: 11px;
+  margin-top: 1.2rem;
   text-align: center;
 }
 
@@ -83,4 +79,7 @@ $inuit-enable-validation-states : true;
 .minMaxLabel {
   font-size: 14px;
   fill: var(--px-slider-label-color, black);
+  &.disabled {
+    fill: var(--px-slider-border-color--disabled);
+  }
 }

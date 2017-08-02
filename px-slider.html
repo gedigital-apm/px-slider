@@ -59,7 +59,7 @@ Custom property | Description
       <label for="inputStart" class="visuallyhidden">Value or Start Value</label>
       <input id="inputStart"
         type="text"
-        class="text-input flex__item--no-grow"
+        class="text-input"
         value="[[formattedStartValue]]"
         on-change="_inputChangedStart"
         tabindex="0"
@@ -85,8 +85,8 @@ Custom property | Description
     <svg
       xmlns="http://www.w3.org/2000/svg"
       id="sliderSVG"
-      class="flex__item--no-grow u-mb"
-      overflow="hidden"
+      class="flex__item u-mb"
+      overflow="visible"
       width$="[[_getSvgWith(_width, _margin.*)]]"
       height$="[[_getSvgHeight(_height, _margin.*)]]">
       <g id="sliderContainer" transform$="[[_calcTransform(_margin.*)]]">
@@ -103,17 +103,17 @@ Custom property | Description
             id="minLabel"
             class="minMaxLabel"
             text-anchor="start"
-            alignment-baseline$="[[_returnLabelBaseline(minLabelPosition)]]"
+            dominant-baseline$="[[_returnLabelBaseline(minLabelPosition)]]"
             x="0"
-            y$="[[_returnLabelPosition(minLabelPosition)]]"
+            y$="[[_returnLabelPosition(minLabelPosition, isRange)]]"
           >{{_returnLabel(min, showLabels)}}</text>
           <text
             id="maxLabel"
             class="minMaxLabel"
             text-anchor="end"
-            alignment-baseline$="[[_returnLabelBaseline(maxLabelPosition)]]"
+            dominant-baseline$="[[_returnLabelBaseline(maxLabelPosition)]]"
             x$="[[_width]]"
-            y$="[[_returnLabelPosition(maxLabelPosition)]]"
+            y$="[[_returnLabelPosition(maxLabelPosition, isRange)]]"
           >{{_returnLabel(max, showLabels)}}</text>
         </g>
 
@@ -130,7 +130,7 @@ Custom property | Description
       <label for="inputEnd" class="visuallyhidden">End Value</label>
       <input id="inputEnd"
         type="text"
-        class="text-input input--tiny flex__item--no-grow"
+        class="text-input input--tiny"
         value="[[formattedEndValue]]"
         on-change="_inputChangedEnd"
         tabindex="0"

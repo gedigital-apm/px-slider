@@ -1,3 +1,7 @@
+v2.0.2
+==================
+* fix display issues in all browsers
+
 v2.0.1
 ==================
 * fix css vars and pick up label color fix from theme
