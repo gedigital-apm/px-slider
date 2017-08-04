@@ -1,3 +1,7 @@
+v2.0.3
+==================
+* runtime theming for demo
+
 v2.0.2
 ==================
 * fix display issues in all browsers
