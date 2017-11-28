@@ -132,11 +132,11 @@ var wrapperRect=this.$.wrapper.getBoundingClientRect(),startInputSize=this._inpu
      * Shows or hides the input boxes based on settings. Triggers the dom-ifs in the Template
      */_hideInputsChanged:function _hideInputsChanged(hideInputs){if(this.hideInputs){this.set('_showStartInput',false);this.set('_showEndInput',false)}else{this.set('_showStartInput',true);this.set('_showEndInput',this.isRange)}this._assignInputElems();this.notifyResize()},/**
      * Returns the width to be used for the svg
-     */_getSvgWith:function _getSvgWith(){return this._width+this._margin.left+this._margin.right},/**
+     */_getSvgWidth:function _getSvgWidth(_width,_margin){if(!(_width===undefined||_margin===undefined)){return this._width+this._margin.left+this._margin.right}},/**
      * Returns the height to be used for the svg
-     */_getSvgHeight:function _getSvgHeight(){return this._height+this._margin.top+this._margin.bottom},/**
+     */_getSvgHeight:function _getSvgHeight(_height,_margin){if(!(_height===undefined||_margin===undefined)){return this._height+this._margin.top+this._margin.bottom}},/**
      * Calculates the transform for the svg elems
-     */_calcTransform:function _calcTransform(){return'translate('+this._margin.left+','+this._margin.top+')'},/**
+     */_calcTransform:function _calcTransform(_margin){return'translate('+this._margin.left+','+this._margin.top+')'},/**
      * Validates that the step property is valid value
      */_stepChanged:function _stepChanged(){if(this.step!==undefined){// Cant have a step less than 0
 if(this.step<0){console.warn('Improper configuration: step cannot be negative. Falling back to absolute value');this.set('step',Math.abs(this.step));return}// Cant have a step of 0
@@ -186,7 +186,7 @@ if(v<this.min){v=this._calcStepRounded(this.min);valid=false;this.set(thisVal,v)
      * Apply a transform to the handle to move it
      */_moveHandle:function _moveHandle(handle,v){handle.attr('transform','translate('+this._scale(v)+',0)')},/**
      * Update the starting point of the progress bar based on the value property and isRange
-     */_calcProgressStart:function _calcProgressStart(value,_scaleChanged,isRange){if(!(value===undefined||value||_scaleChanged===undefined||isRange===undefined)){if(this.isRange){return this._scale(this.value)}return 0}},/**
+     */_calcProgressStart:function _calcProgressStart(value,_scaleChanged,isRange){if(this.isRange){return this._scale(this.value)}return 0},/**
      * Update the end point of the progress bar based on the value property or endValue property
      */_calcProgressEnd:function _calcProgressEnd(value,endValue,_scaleChanged,isRange){if(!(value===undefined||endValue===undefined||_scaleChanged===undefined||isRange===undefined)){if(this.isRange){return Math.max(this._scale(this.endValue)-this._scale(this.value),1)}return this._scale(this.value)}},/**
      * Updates the formating string for nubmer-formatter
@@ -221,7 +221,7 @@ input.blur();input.value=formattedVal;this.toggleClass('validation-error',false,
      * Checks the value of the endValue on initialization to ensure it is valid
      */_checkEndValue:function _checkEndValue(){var v=this._calcStepRounded(this.endValue);if(v>=this.value&&v<=this.max){this.set('endValue',v)}else{var m=this._calcStepRounded(this.max);this.set('endValue',m)}},/**
      * Fired when isRange changes value to turn the slider into a range slider or single slider
-     */_isRangeChanged:function _isRangeChanged(isRange){if(!(isRange===undefined)){// make sure the endValue is valid
+     */_isRangeChanged:function _isRangeChanged(isRange){if(isRange!==undefined){// make sure the endValue is valid
 this._checkEndValue();// check if we need to change inputs shown
 this._hideInputsChanged();// rebuild the handles
 this._buildHandles()}},/**

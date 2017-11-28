@@ -1317,7 +1317,7 @@
           ]
         },
         {
-          "name": "_getSvgWith",
+          "name": "_getSvgWidth",
           "description": "Returns the width to be used for the svg",
           "privacy": "protected",
           "sourceRange": {
@@ -1327,11 +1327,18 @@
             },
             "end": {
               "line": 134,
-              "column": 98
+              "column": 162
             }
           },
           "metadata": {},
-          "params": []
+          "params": [
+            {
+              "name": "_width"
+            },
+            {
+              "name": "_margin"
+            }
+          ]
         },
         {
           "name": "_getSvgHeight",
@@ -1344,11 +1351,18 @@
             },
             "end": {
               "line": 136,
-              "column": 103
+              "column": 167
             }
           },
           "metadata": {},
-          "params": []
+          "params": [
+            {
+              "name": "_height"
+            },
+            {
+              "name": "_margin"
+            }
+          ]
         },
         {
           "name": "_calcTransform",
@@ -1361,11 +1375,15 @@
             },
             "end": {
               "line": 138,
-              "column": 110
+              "column": 138
             }
           },
           "metadata": {},
-          "params": []
+          "params": [
+            {
+              "name": "_margin"
+            }
+          ]
         },
         {
           "name": "_stepChanged",

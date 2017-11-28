@@ -468,7 +468,6 @@
     _buildHandles() {
       if(this._handleDefinitions && this._startHandle && this._endHandle) {
         if(this.isRange) {
-
           this._startHandle.select('.handleBody')
             .attr("d", this._handleDefinitions.down.bodyD);
 
@@ -539,14 +538,18 @@
     /**
      * Returns the width to be used for the svg
      */
-    _getSvgWith() {
-      return this._width + this._margin.left + this._margin.right;
+    _getSvgWidth(_width, _margin) {
+      if(! (_width === undefined || _margin === undefined)){
+        return this._width + this._margin.left + this._margin.right;
+      }
     },
     /**
      * Returns the height to be used for the svg
      */
-    _getSvgHeight() {
-      return this._height + this._margin.top + this._margin.bottom;
+    _getSvgHeight(_height, _margin) {
+      if(! (_height === undefined || _margin === undefined)){
+        return this._height + this._margin.top + this._margin.bottom;
+      }
     },
 
     /**
@@ -806,12 +809,10 @@
      * Update the starting point of the progress bar based on the value property and isRange
      */
     _calcProgressStart(value, _scaleChanged, isRange) {
-      if (! (value === undefined || value || _scaleChanged === undefined || isRange === undefined)) {
-        if(this.isRange) {
-          return this._scale(this.value);
-        }
-        return 0;
+      if(this.isRange) {
+        return this._scale(this.value);
       }
+      return 0;
     },
 
     /**
@@ -957,7 +958,7 @@
      * Fired when isRange changes value to turn the slider into a range slider or single slider
      */
     _isRangeChanged(isRange) {
-      if (! (isRange === undefined)) {
+      if (isRange !== undefined) {
         // make sure the endValue is valid
         this._checkEndValue();
 
