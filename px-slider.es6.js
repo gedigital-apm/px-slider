@@ -523,7 +523,7 @@
     /**
      * Shows or hides the input boxes based on settings. Triggers the dom-ifs in the Template
      */
-    _hideInputsChanged() {
+    _hideInputsChanged(hideInputs) {
       if(this.hideInputs) {
         this.set('_showStartInput', false);
         this.set('_showEndInput', false);
@@ -560,25 +560,28 @@
      * Validates that the step property is valid value
      */
     _stepChanged() {
-      // Cant have a step less than 0
-      if(this.step < 0) {
-        console.warn("Improper configuration: step cannot be negative. Falling back to absolute value");
-        this.set('step', Math.abs(this.step));
-        return;
-      }
+      if(this.step !== undefined){
+        // Cant have a step less than 0
+        if(this.step < 0) {
+          console.warn("Improper configuration: step cannot be negative. Falling back to absolute value");
+          this.set('step', Math.abs(this.step));
+          return;
+        }
 
-      // Cant have a step of 0
-      if(this.step === 0) {
-        console.warn("Improper configuration: step cannot be negative. Falling back to 1");
-        this.set('step', 1);
-        return;
+        // Cant have a step of 0
+        if(this.step === 0) {
+          console.warn("Improper configuration: step cannot be negative. Falling back to 1");
+          this.set('step', 1);
+          return;
+        }
       }
     },
 
     /**
      * Validates the the min and max values to ensure that the min is < the max
      */
-    _minOrMaxChanged() {
+    _minOrMaxChanged(min, max) {
+      if(! (min === undefined || max === undefined)){
         // var min, max;
         //check that min is less than max
         if(this.min === this.max) {
@@ -602,6 +605,7 @@
         // validation passes: trigger set domain
         // apparently, it is possible to run this before polymer property defaults can be applied, so check that _minMaxValid is defined
         this.set('_minMaxValid', (this._minMaxValid || 0) + 1);
+      }
     },
 
     /**
@@ -635,12 +639,14 @@
     /**
      * Set our scale's range: the pixel max and min to use in the translation
      */
-    _setRange() {
-      this.debounce('_setRange', function() {
-        if(this._scale && this._width && this._height) {
-          this._setRangeDebouced();
-        }
-      }, 10);
+    _setRange(_scale, _width, _height) {
+      if(! (_scale === undefined || _width === undefined || _height === undefined)){
+        this.debounce('_setRange', function() {
+          if(this._scale && this._width && this._height) {
+            this._setRangeDebouced();
+          }
+        }, 10);
+      }
     },
 
     /**
@@ -666,12 +672,14 @@
     /**
      * Set our scale's domain: the data max and min to use in the translation
      */
-    _setDomain() {
-      this.debounce('_setDomain', function() {
-        if(this._scale && this._minMaxValid) {
-          this._setDomainDebounced();
-        }
-      }, 10);
+    _setDomain(_scale, _minMaxValid) {
+      if(! (_scale === undefined || _minMaxValid === undefined)){
+        this.debounce('_setDomain', function() {
+          if(this._scale && this._minMaxValid) {
+            this._setDomainDebounced();
+          }
+        }, 10);
+      }
     },
 
     /**
@@ -761,12 +769,14 @@
     /**
      * When the value property changes, sync the handle position
      */
-    _valueChanged(v) {
-      if(this._startHandle) {
-        var valid = this._validateValue(v, 'value');
-        if(valid) {
-          this._moveHandle(this._startHandle, v);
-          this.setAttribute('aria-valuenow',v);
+    _valueChanged(value, _scale, _scaleChanged){
+      if (! (value === undefined  || _scale === undefined || _scaleChanged === undefined)) {
+        if(this._startHandle) {
+          var valid = this._validateValue(value, 'value');
+          if(valid) {
+            this._moveHandle(this._startHandle, value);
+            this.setAttribute('aria-valuenow', value);
+          }
         }
       }
     },
@@ -774,11 +784,13 @@
     /**
      * When the endValue property changes, sync the handle position
      */
-    _endValueChanged(v) {
-      if(v !== null && this._endHandle) {
-        var valid = this._validateValue(v, 'endValue');
-        if(valid) {
-          this._moveHandle(this._endHandle, v);
+    _endValueChanged(endValue, _scale, _scaleChanged) {
+      if (! (endValue === undefined  || _scale === undefined || _scaleChanged === undefined)) {
+        if(endValue !== null && this._endHandle) {
+          var valid = this._validateValue(endValue, 'endValue');
+          if(valid) {
+            this._moveHandle(this._endHandle, endValue);
+          }
         }
       }
     },
@@ -793,11 +805,13 @@
     /**
      * Update the starting point of the progress bar based on the value property and isRange
      */
-    _calcProgressStart() {
-      if(this.isRange) {
-        return this._scale(this.value);
+    _calcProgressStart(value, _scaleChanged, isRange) {
+      if (! (value === undefined || value || _scaleChanged === undefined || isRange === undefined)) {
+        if(this.isRange) {
+          return this._scale(this.value);
+        }
+        return 0;
       }
-      return 0;
     },
 
     /**
@@ -942,15 +956,17 @@
     /**
      * Fired when isRange changes value to turn the slider into a range slider or single slider
      */
-    _isRangeChanged() {
-      // make sure the endValue is valid
-      this._checkEndValue();
+    _isRangeChanged(isRange) {
+      if (! (isRange === undefined)) {
+        // make sure the endValue is valid
+        this._checkEndValue();
 
-      // check if we need to change inputs shown
-      this._hideInputsChanged();
+        // check if we need to change inputs shown
+        this._hideInputsChanged();
 
-      // rebuild the handles
-      this._buildHandles();
+        // rebuild the handles
+        this._buildHandles();
+      }
     },
 
     /**

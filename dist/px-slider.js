@@ -130,7 +130,7 @@ this.debounce('ironresize',function(){// TODO vertical version
 var wrapperRect=this.$.wrapper.getBoundingClientRect(),startInputSize=this._inputStart?this._inputStart.getBoundingClientRect().width:0,startInputMargin=this._inputStart?Number(window.getComputedStyle(this._inputStart).marginRight.split('px')[0]):0,endInputSize=this._inputEnd?this._inputEnd.getBoundingClientRect().width:0,endInputMargin=this._inputEnd?Number(window.getComputedStyle(this._inputEnd).marginLeft.split('px')[0]):0,w=wrapperRect.width-startInputSize-endInputSize-startInputMargin-endInputMargin-this._margin.left-this._margin.right;this.set('_width',Math.max(w,0));// this.set('_height', Math.max(h, 0));
 },10)},/**
      * Shows or hides the input boxes based on settings. Triggers the dom-ifs in the Template
-     */_hideInputsChanged:function _hideInputsChanged(){if(this.hideInputs){this.set('_showStartInput',false);this.set('_showEndInput',false)}else{this.set('_showStartInput',true);this.set('_showEndInput',this.isRange)}this._assignInputElems();this.notifyResize()},/**
+     */_hideInputsChanged:function _hideInputsChanged(hideInputs){if(this.hideInputs){this.set('_showStartInput',false);this.set('_showEndInput',false)}else{this.set('_showStartInput',true);this.set('_showEndInput',this.isRange)}this._assignInputElems();this.notifyResize()},/**
      * Returns the width to be used for the svg
      */_getSvgWith:function _getSvgWith(){return this._width+this._margin.left+this._margin.right},/**
      * Returns the height to be used for the svg
@@ -138,27 +138,27 @@ var wrapperRect=this.$.wrapper.getBoundingClientRect(),startInputSize=this._inpu
      * Calculates the transform for the svg elems
      */_calcTransform:function _calcTransform(){return'translate('+this._margin.left+','+this._margin.top+')'},/**
      * Validates that the step property is valid value
-     */_stepChanged:function _stepChanged(){// Cant have a step less than 0
+     */_stepChanged:function _stepChanged(){if(this.step!==undefined){// Cant have a step less than 0
 if(this.step<0){console.warn('Improper configuration: step cannot be negative. Falling back to absolute value');this.set('step',Math.abs(this.step));return}// Cant have a step of 0
-if(this.step===0){console.warn('Improper configuration: step cannot be negative. Falling back to 1');this.set('step',1);return}},/**
+if(this.step===0){console.warn('Improper configuration: step cannot be negative. Falling back to 1');this.set('step',1);return}}},/**
      * Validates the the min and max values to ensure that the min is < the max
-     */_minOrMaxChanged:function _minOrMaxChanged(){// var min, max;
+     */_minOrMaxChanged:function _minOrMaxChanged(min,max){if(!(min===undefined||max===undefined)){// var min, max;
 //check that min is less than max
 if(this.min===this.max){this.set('_minMaxValid',0);console.warn('Improper configuration: min and max are the same. Increasing max by step size.');this.set('max',this.min+this.step);return}if(this.min>this.max){this.set('_minMaxValid',0);console.warn('Improper configuration: min and max are reversed. Swapping them.');var temp=this.min;this.set('min',this.max);this.set('max',temp);return}this.setAttribute('aria-valuemin',this.min);this.setAttribute('aria-valuemax',this.max);// validation passes: trigger set domain
 // apparently, it is possible to run this before polymer property defaults can be applied, so check that _minMaxValid is defined
-this.set('_minMaxValid',(this._minMaxValid||0)+1)},/**
+this.set('_minMaxValid',(this._minMaxValid||0)+1)}},/**
      * Creates a scale which translate pixel coordinates into our data values
      */_createScale:function _createScale(){this.debounce('_createScale',function(){this._createScaleDebounced()},10)},/**
      * Creates a scale for realz
      */_createScaleDebounced:function _createScaleDebounced(){var scale;if(this.scale==='linear'){scale=Px.d3.scaleLinear().clamp(true)}else if(this.scale==='logarithmic'){scale=Px.d3.scaleLog().base(this.base).clamp(true)}else if(this.scale==='exponential'){scale=Px.d3.scalePow().exponent(this.exponent).clamp(true)}// TODO Quantize, Ordinal
 this.set('_scale',scale)},/**
      * Set our scale's range: the pixel max and min to use in the translation
-     */_setRange:function _setRange(){this.debounce('_setRange',function(){if(this._scale&&this._width&&this._height){this._setRangeDebouced()}},10)},/**
+     */_setRange:function _setRange(_scale,_width,_height){if(!(_scale===undefined||_width===undefined||_height===undefined)){this.debounce('_setRange',function(){if(this._scale&&this._width&&this._height){this._setRangeDebouced()}},10)}},/**
      * Set our scale's range for realz
      */_setRangeDebouced:function _setRangeDebouced(){var range;if(this.orientation==='vertical'){var h=Math.max(this._height,0);range=[h,0]}else{var w=Math.max(this._width,0);range=[0,w]}this._scale.range(range);// force a recalc
 this._scaleChanged=!this._scaleChanged},/**
      * Set our scale's domain: the data max and min to use in the translation
-     */_setDomain:function _setDomain(){this.debounce('_setDomain',function(){if(this._scale&&this._minMaxValid){this._setDomainDebounced()}},10)},/**
+     */_setDomain:function _setDomain(_scale,_minMaxValid){if(!(_scale===undefined||_minMaxValid===undefined)){this.debounce('_setDomain',function(){if(this._scale&&this._minMaxValid){this._setDomainDebounced()}},10)}},/**
      * Set our scale's domain for realz
      */_setDomainDebounced:function _setDomainDebounced(){this._scale.domain([this.min,this.max]);// force a recalc
 this._scaleChanged=!this._scaleChanged},/**
@@ -180,13 +180,13 @@ if(this.isRange&&thisVal==='value'&&v>this.endValue){v=this.endValue;valid=false
 if(v<this.min){v=this._calcStepRounded(this.min);valid=false;this.set(thisVal,v);// check v is less than the max
 }else if(v>this.max){v=this._calcStepRounded(this.max);valid=false;this.set(thisVal,v)}return valid},/**
      * When the value property changes, sync the handle position
-     */_valueChanged:function _valueChanged(v){if(this._startHandle){var valid=this._validateValue(v,'value');if(valid){this._moveHandle(this._startHandle,v);this.setAttribute('aria-valuenow',v)}}},/**
+     */_valueChanged:function _valueChanged(value,_scale,_scaleChanged){if(!(value===undefined||_scale===undefined||_scaleChanged===undefined)){if(this._startHandle){var valid=this._validateValue(value,'value');if(valid){this._moveHandle(this._startHandle,value);this.setAttribute('aria-valuenow',value)}}}},/**
      * When the endValue property changes, sync the handle position
-     */_endValueChanged:function _endValueChanged(v){if(v!==null&&this._endHandle){var valid=this._validateValue(v,'endValue');if(valid){this._moveHandle(this._endHandle,v)}}},/**
+     */_endValueChanged:function _endValueChanged(endValue,_scale,_scaleChanged){if(!(endValue===undefined||_scale===undefined||_scaleChanged===undefined)){if(endValue!==null&&this._endHandle){var valid=this._validateValue(endValue,'endValue');if(valid){this._moveHandle(this._endHandle,endValue)}}}},/**
      * Apply a transform to the handle to move it
      */_moveHandle:function _moveHandle(handle,v){handle.attr('transform','translate('+this._scale(v)+',0)')},/**
      * Update the starting point of the progress bar based on the value property and isRange
-     */_calcProgressStart:function _calcProgressStart(){if(this.isRange){return this._scale(this.value)}return 0},/**
+     */_calcProgressStart:function _calcProgressStart(value,_scaleChanged,isRange){if(!(value===undefined||value||_scaleChanged===undefined||isRange===undefined)){if(this.isRange){return this._scale(this.value)}return 0}},/**
      * Update the end point of the progress bar based on the value property or endValue property
      */_calcProgressEnd:function _calcProgressEnd(value,endValue,_scaleChanged,isRange){if(!(value===undefined||endValue===undefined||_scaleChanged===undefined||isRange===undefined)){if(this.isRange){return Math.max(this._scale(this.endValue)-this._scale(this.value),1)}return this._scale(this.value)}},/**
      * Updates the formating string for nubmer-formatter
@@ -221,10 +221,10 @@ input.blur();input.value=formattedVal;this.toggleClass('validation-error',false,
      * Checks the value of the endValue on initialization to ensure it is valid
      */_checkEndValue:function _checkEndValue(){var v=this._calcStepRounded(this.endValue);if(v>=this.value&&v<=this.max){this.set('endValue',v)}else{var m=this._calcStepRounded(this.max);this.set('endValue',m)}},/**
      * Fired when isRange changes value to turn the slider into a range slider or single slider
-     */_isRangeChanged:function _isRangeChanged(){// make sure the endValue is valid
+     */_isRangeChanged:function _isRangeChanged(isRange){if(!(isRange===undefined)){// make sure the endValue is valid
 this._checkEndValue();// check if we need to change inputs shown
 this._hideInputsChanged();// rebuild the handles
-this._buildHandles()},/**
+this._buildHandles()}},/**
      * Sets disabled  styles
      */_toggleDisabledClass:function _toggleDisabledClass(){this._startHandle.classed('disabled',this.disabled);this._endHandle.classed('disabled',this.disabled);this._progressBar.classed('disabled',this.disabled);this._backgroundTrack.classed('disabled',this.disabled);this._minLabel.classed('disabled',this.disabled);this._maxLabel.classed('disabled',this.disabled)},_returnLabel:function _returnLabel(label,showLabels){return showLabels?label:''},_returnLabelPosition:function _returnLabelPosition(labelPosition,isRange){if(isRange){return labelPosition==='top'?-20:24}else{return labelPosition==='top'?-15:19}},_returnLabelBaseline:function _returnLabelBaseline(labelPosition){return labelPosition==='top'?'baseline':'hanging'}})})();
 //# sourceMappingURL=px-slider.js.map
