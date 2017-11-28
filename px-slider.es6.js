@@ -24,7 +24,7 @@
        * Margin for the svg elems centering the bars and providing space around them for the handles
        */
       _margin:{
-        type:Object,
+        type: Object,
         notify: true,
         value: function() {
           return {
@@ -310,8 +310,7 @@
       '_setDomain(_scale, _minMaxValid)',
       '_valueChanged(value, _scale, _scaleChanged)',
       '_endValueChanged(endValue, _scale, _scaleChanged)',
-      '_updateFormat(step)',
-      '_updateFormat(format)',
+      '_updateFormat(step, format)',
       '_isRangeChanged(isRange)',
       '_hideInputsChanged(hideInputs)'
     ],
@@ -804,35 +803,39 @@
     /**
      * Update the end point of the progress bar based on the value property or endValue property
      */
-    _calcProgressEnd() {
-      if(this.isRange) {
-        return Math.max(this._scale(this.endValue) - this._scale(this.value), 1);
-      }
+    _calcProgressEnd(value, endValue, _scaleChanged, isRange) {
+      if (! (value === undefined || endValue === undefined || _scaleChanged === undefined || isRange === undefined)) {
+        if(this.isRange) {
+          return Math.max(this._scale(this.endValue) - this._scale(this.value), 1);
+        }
 
-      return this._scale(this.value);
+        return this._scale(this.value);
+      }
     },
 
     /**
      * Updates the formating string for nubmer-formatter
      */
-    _updateFormat() {
-      // if dev passed in a format, just use it
-      if(this.format) {
-        this.set('_format', this.format);
-        return;
+    _updateFormat(step, format) {
+      if (! (step === undefined || format === undefined)) {
+        // if dev passed in a format, just use it
+        if(this.format) {
+          this.set('_format', this.format);
+          return;
+        }
+
+        // otherwise figure out if we should have decimals or not
+        // TODO Internationalization Comma notation?
+        var s = this.step.toString().split('.'),
+            l = (s.length === 2) ? s[1].length : 0,
+            f = '0.';
+
+        for(var i = 0; i < l; i++) {
+          f += '0';
+        }
+
+        this.set('_format', f);
       }
-
-      // otherwise figure out if we should have decimals or not
-      // TODO Internationalization Comma notation?
-      var s = this.step.toString().split('.'),
-          l = (s.length === 2) ? s[1].length : 0,
-          f = '0.';
-
-      for(var i = 0; i < l; i++) {
-        f += '0';
-      }
-
-      this.set('_format', f);
     },
 
     /**
