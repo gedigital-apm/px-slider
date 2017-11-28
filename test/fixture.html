@@ -15,18 +15,20 @@
     <title>seed-element</title>
 
     <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <!-- web-component-tester automatically provides local copy of brower.js below
          for any URL ending with "/web-component-tester/browser.js"
          when wct is run from the command line -->
-    <script src="../web-component-tester/browser.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
     <link rel="import" href="../px-slider.html" />
     <!-- Retain this link for px-theme.html -->
     <!-- For some reason px-theme is needed for WCT to run without some errors -->
     <link rel="import" href="../../px-theme/px-theme-styles.html">
-    <style include="px-theme-styles" is="custom-style"></style>
     <script src="../../test-fixture/test-fixture-mocha.js"></script>
     <link href="../../test-fixture/test-fixture.html" rel="import">
+    <custom-style>
+      <style include="px-theme-styles" is="custom-style"></style>
+    </custom-style>
   </head>
   <body>
 
