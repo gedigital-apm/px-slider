@@ -136,7 +136,7 @@ var wrapperRect=this.$.wrapper.getBoundingClientRect(),startInputSize=this._inpu
      * Returns the height to be used for the svg
      */_getSvgHeight:function _getSvgHeight(_height,_margin){if(!(_height===undefined||_margin===undefined)){return this._height+this._margin.top+this._margin.bottom}},/**
      * Calculates the transform for the svg elems
-     */_calcTransform:function _calcTransform(_margin){return'translate('+this._margin.left+','+this._margin.top+')'},/**
+     */_calcTransform:function _calcTransform(){return'translate('+this._margin.left+','+this._margin.top+')'},/**
      * Validates that the step property is valid value
      */_stepChanged:function _stepChanged(){if(this.step!==undefined){// Cant have a step less than 0
 if(this.step<0){console.warn('Improper configuration: step cannot be negative. Falling back to absolute value');this.set('step',Math.abs(this.step));return}// Cant have a step of 0
@@ -186,14 +186,14 @@ if(v<this.min){v=this._calcStepRounded(this.min);valid=false;this.set(thisVal,v)
      * Apply a transform to the handle to move it
      */_moveHandle:function _moveHandle(handle,v){handle.attr('transform','translate('+this._scale(v)+',0)')},/**
      * Update the starting point of the progress bar based on the value property and isRange
-     */_calcProgressStart:function _calcProgressStart(value,_scaleChanged,isRange){if(this.isRange){return this._scale(this.value)}return 0},/**
+     */_calcProgressStart:function _calcProgressStart(value,_scaleChanged,isRange){if(this._scale!==undefined){if(this.isRange){return this._scale(this.value)}return 0}},/**
      * Update the end point of the progress bar based on the value property or endValue property
      */_calcProgressEnd:function _calcProgressEnd(value,endValue,_scaleChanged,isRange){if(!(value===undefined||endValue===undefined||_scaleChanged===undefined||isRange===undefined)){if(this.isRange){return Math.max(this._scale(this.endValue)-this._scale(this.value),1)}return this._scale(this.value)}},/**
      * Updates the formating string for nubmer-formatter
-     */_updateFormat:function _updateFormat(step,format){if(!(step===undefined||format===undefined)){// if dev passed in a format, just use it
+     */_updateFormat:function _updateFormat(step,format){// if dev passed in a format, just use it
 if(this.format){this.set('_format',this.format);return}// otherwise figure out if we should have decimals or not
 // TODO Internationalization Comma notation?
-var s=this.step.toString().split('.'),l=s.length===2?s[1].length:0,f='0.';for(var i=0;i<l;i++){f+='0'}this.set('_format',f)}},/**
+var s=this.step.toString().split('.'),l=s.length===2?s[1].length:0,f='0.';for(var i=0;i<l;i++){f+='0'}this.set('_format',f)},/**
      * User has changed the text in the left input field
      */_inputChangedStart:function _inputChangedStart(evt){var text=this._inputStart.value;this._inputChanged(text,this._inputStart,'#formatterStart','value')},/**
      * User has changed the text in the right input field

@@ -809,10 +809,12 @@
      * Update the starting point of the progress bar based on the value property and isRange
      */
     _calcProgressStart(value, _scaleChanged, isRange) {
-      if(this.isRange) {
-        return this._scale(this.value);
+      if(this._scale !== undefined){
+        if(this.isRange) {
+          return this._scale(this.value);
+        }
+        return 0;
       }
-      return 0;
     },
 
     /**
@@ -832,7 +834,6 @@
      * Updates the formating string for nubmer-formatter
      */
     _updateFormat(step, format) {
-      if (! (step === undefined || format === undefined)) {
         // if dev passed in a format, just use it
         if(this.format) {
           this.set('_format', this.format);
@@ -850,7 +851,6 @@
         }
 
         this.set('_format', f);
-      }
     },
 
     /**

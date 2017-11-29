@@ -11,11 +11,14 @@
 
     <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
     <link rel="import" href="px-slider.html" />
-    <style>
-      html {
-        font-size: .9375rem;
-      }
-    </style>
+    <link rel="import" href="../px-theme/px-theme-styles.html" />
+    <custom-style>
+      <style include="px-theme-styles" is="custom-style">
+        html {
+          font-size: .9375rem;
+        }
+      </style>
+    </custom-style>
   </head>
 
   <body>

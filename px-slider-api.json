@@ -1375,15 +1375,11 @@
             },
             "end": {
               "line": 138,
-              "column": 138
+              "column": 110
             }
           },
           "metadata": {},
-          "params": [
-            {
-              "name": "_margin"
-            }
-          ]
+          "params": []
         },
         {
           "name": "_stepChanged",
@@ -1400,7 +1396,11 @@
             }
           },
           "metadata": {},
-          "params": []
+          "params": [
+            {
+              "name": "val"
+            }
+          ]
         },
         {
           "name": "_minOrMaxChanged",
@@ -1727,7 +1727,7 @@
             },
             "end": {
               "line": 188,
-              "column": 221
+              "column": 169
             }
           },
           "metadata": {},
@@ -1784,7 +1784,7 @@
             },
             "end": {
               "line": 195,
-              "column": 125
+              "column": 124
             }
           },
           "metadata": {},
