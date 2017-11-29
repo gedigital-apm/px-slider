@@ -78,7 +78,7 @@
        * - 'top'
        */maxLabelPosition:{type:String,value:'bottom'},/**
        * The path definitions for the handles
-       */_handleDefinitions:{type:Object,value:function value(){return{'circle':{'bodyD':'m0,-7.5c5,0 10,5 10,10c0,5 -5,10 -10,10c-5,0 -10,-5 -10,-10c0,-5 5,-10 10,-10z'},'down':{'bodyD':'m7.5,-13l-15,0l7.5,12l7.5,-12z'},'up':{'bodyD':'m7.5,18l-15,0l7.5,-12l7.5,12z'}}}}},behaviors:[Polymer.IronResizableBehavior,PxNumberFormatter.commonProperties],listeners:{'iron-resize':'_onIronResize'},observers:['_minOrMaxChanged(min, max)','_setRange(_scale, _width, _height)','_setDomain(_scale, _minMaxValid)','_valueChanged(value, _scale, _scaleChanged)','_endValueChanged(endValue, _scale, _scaleChanged)','_updateFormat(step, format)','_isRangeChanged(isRange)','_hideInputsChanged(hideInputs)'],ready:function ready(){window.requestAnimationFrame(this._animationFrame.bind(this))},attached:function attached(){this.setAttribute('role','slider')},/**
+       */_handleDefinitions:{type:Object,value:function value(){return{'circle':{'bodyD':'m0,-7.5c5,0 10,5 10,10c0,5 -5,10 -10,10c-5,0 -10,-5 -10,-10c0,-5 5,-10 10,-10z'},'down':{'bodyD':'m7.5,-13l-15,0l7.5,12l7.5,-12z'},'up':{'bodyD':'m7.5,18l-15,0l7.5,-12l7.5,12z'}}}}},behaviors:[Polymer.IronResizableBehavior,PxNumberFormatter.commonProperties],listeners:{'iron-resize':'_onIronResize'},observers:['_minOrMaxChanged(min, max)','_setRange(_scale, _width, _height)','_setDomain(_scale, _minMaxValid)','_valueChanged(value, _scale, _scaleChanged)','_endValueChanged(endValue, _scale, _scaleChanged)','_updateFormat(step, _format)','_isRangeChanged(isRange)','_hideInputsChanged(hideInputs)'],ready:function ready(){window.requestAnimationFrame(this._animationFrame.bind(this))},attached:function attached(){this.setAttribute('role','slider')},/**
      * Do general setup on our svg once we have an animation frame and know stuff exists
      * - create listeners
      * - draw our handles
@@ -191,9 +191,9 @@ if(v<this.min){v=this._calcStepRounded(this.min);valid=false;this.set(thisVal,v)
      */_calcProgressEnd:function _calcProgressEnd(value,endValue,_scaleChanged,isRange){if(!(value===undefined||endValue===undefined||_scaleChanged===undefined||isRange===undefined)){if(this.isRange){return Math.max(this._scale(this.endValue)-this._scale(this.value),1)}return this._scale(this.value)}},/**
      * Updates the formating string for nubmer-formatter
      */_updateFormat:function _updateFormat(step,format){// if dev passed in a format, just use it
-if(this.format){this.set('_format',this.format);return}// otherwise figure out if we should have decimals or not
+if(step!==undefined){if(this.format){this.set('_format',this.format);return}// otherwise figure out if we should have decimals or not
 // TODO Internationalization Comma notation?
-var s=this.step.toString().split('.'),l=s.length===2?s[1].length:0,f='0.';for(var i=0;i<l;i++){f+='0'}this.set('_format',f)},/**
+var s=this.step.toString().split('.'),l=s.length===2?s[1].length:0,f='0.';for(var i=0;i<l;i++){f+='0'}this.set('_format',f)}},/**
      * User has changed the text in the left input field
      */_inputChangedStart:function _inputChangedStart(evt){var text=this._inputStart.value;this._inputChanged(text,this._inputStart,'#formatterStart','value')},/**
      * User has changed the text in the right input field

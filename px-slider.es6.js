@@ -310,7 +310,7 @@
       '_setDomain(_scale, _minMaxValid)',
       '_valueChanged(value, _scale, _scaleChanged)',
       '_endValueChanged(endValue, _scale, _scaleChanged)',
-      '_updateFormat(step, format)',
+      '_updateFormat(step, _format)',
       '_isRangeChanged(isRange)',
       '_hideInputsChanged(hideInputs)'
     ],
@@ -835,22 +835,24 @@
      */
     _updateFormat(step, format) {
         // if dev passed in a format, just use it
-        if(this.format) {
-          this.set('_format', this.format);
-          return;
+        if(step !== undefined){
+          if(this.format) {
+            this.set('_format', this.format);
+            return;
+          }
+
+          // otherwise figure out if we should have decimals or not
+          // TODO Internationalization Comma notation?
+          var s = this.step.toString().split('.'),
+          l = (s.length === 2) ? s[1].length : 0,
+          f = '0.';
+
+          for(var i = 0; i < l; i++) {
+            f += '0';
+          }
+
+          this.set('_format', f);
         }
-
-        // otherwise figure out if we should have decimals or not
-        // TODO Internationalization Comma notation?
-        var s = this.step.toString().split('.'),
-            l = (s.length === 2) ? s[1].length : 0,
-            f = '0.';
-
-        for(var i = 0; i < l; i++) {
-          f += '0';
-        }
-
-        this.set('_format', f);
     },
 
     /**
