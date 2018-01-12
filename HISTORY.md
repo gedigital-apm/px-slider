@@ -1,3 +1,8 @@
+v2.2.0
+==================
+* Reduced slider margin now that space is not needed since redesign.
+* Removed dist and transpiled ES6 code
+
 v2.1.1
 ==================
 * fix simple demo (#21)
