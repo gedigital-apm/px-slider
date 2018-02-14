@@ -1,5 +1,10 @@
 v2.2.0
 ==================
+* Fix demo for IE
+
+
+v2.2.0
+==================
 * Reduced slider margin now that space is not needed since redesign.
 * Removed dist and transpiled ES6 code
 
