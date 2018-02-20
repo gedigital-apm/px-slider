@@ -531,19 +531,27 @@ Custom property | Description
       _createHandleListeners(handle, valueVar) {
         var handleBody = handle.select('.handleBody');
         var progressBar = Px.d3.select(this.$$('.progressBar'));
-
+var _this = this;
         handle.call(Px.d3.drag()
           .on("start.interrupt", function() { handle.interrupt(); })
           .on("start drag", function() {
+            // debugger
+            console.log('start drag')
             // apply styling
             handleBody.classed("handleBodyPressed", true);
             progressBar.classed("progressBarPressed", true);
 
             // TODO for vertical: check state, pass in d3.event.y
-            this._calcSliderValue(Px.d3.event.x, valueVar);
+            console.log('d3.event.x: %s', Px.d3.event.x)
+            console.log('d3.event.sourceEvent.offsetX: %s', Px.d3.event.sourceEvent.offsetX)
+            debugger
+            const [coordsX] = Px.d3.mouse(this);
+            const offsetX = coordsX < 0 ? Math.abs(coordsX) : 0;
+            _this._calcSliderValue(Px.d3.event.x+offsetX, valueVar);
 
-          }.bind(this))
+          })
           .on("end", function() {
+            console.log('end')
             // remove styling
             handleBody.classed("handleBodyPressed", false);
             progressBar.classed("progressBarPressed", false);
@@ -1152,4 +1160,3 @@ Custom property | Description
     });
   </script>
 </dom-module>
-
