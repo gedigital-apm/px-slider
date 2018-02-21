@@ -3,6 +3,7 @@
 <link rel="import" href="../px-d3-imports/px-d3-imports.html"/>
 <link rel="import" href="../px-number-formatter/px-number-formatter-behavior.html"/>
 <link rel="import" href="../px-number-formatter/px-number-formatter-no-display.html"/>
+<link rel="import" href="../px-component-helpers/px-common-behaviors.html"/>
 <link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html"/>
 <link rel="import" href="css/px-slider-styles.html">
 <link rel="import" href="css/px-handle-styles.html">
@@ -463,7 +464,8 @@ Custom property | Description
       },
       behaviors: [
         Polymer.IronResizableBehavior,
-        PxNumberFormatter.commonProperties
+        PxNumberFormatter.commonProperties,
+        PxCommonBehavior.uniqueIds
       ],
       listeners: {
         'iron-resize': '_onIronResize'
@@ -489,6 +491,7 @@ Custom property | Description
 
       detached() {
         if(this.searchForTransforms) {
+          this.removeID(this._transformEventName);
           window.removeEventListener(this._transformEventName, this._searchForTransformationsBound);
         }
       },
@@ -546,7 +549,7 @@ Custom property | Description
           // we must create a unique event name since this is attached
           // to the window. We dont want other sliders on the page
           // to trigger the event for all sliders.
-          // this._transformEventName += this.getId('-');
+          this._transformEventName += this.generateRandomID(this._transformEventName);
           this._searchForTransformationsBound = this._searchForTransformations.bind(this);
           window.addEventListener(this._transformEventName, this._searchForTransformationsBound);
         }

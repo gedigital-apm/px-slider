@@ -24,7 +24,8 @@
     "px-d3-imports": "^3.0.0",
     "iron-resizable-behavior": "^2.0.0",
     "px-number-formatter": "^4.0.0",
-    "iron-a11y-keys": "^2.0.0"
+    "iron-a11y-keys": "^2.0.0",
+    "px-component-helpers": "^1.0.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
