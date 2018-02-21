@@ -444,6 +444,21 @@ Custom property | Description
               }
             };
           }
+        },
+
+        _transformX: {
+          type: Number,
+          value: 0
+        },
+
+        searchForTransforms: {
+          type: Boolean,
+          value: false
+        },
+
+        _transformEventName: {
+          type: String,
+          value: 'search-for-transforms'
         }
       },
       behaviors: [
@@ -470,6 +485,12 @@ Custom property | Description
 
       attached() {
         this.setAttribute('role','slider');
+      },
+
+      detached() {
+        if(this.searchForTransforms) {
+          window.removeEventListener(this._transformEventName, this._searchForTransformationsBound);
+        }
       },
 
       /**
@@ -500,6 +521,57 @@ Custom property | Description
 
         // set up our listeners
         this._setupListeners();
+
+        /*
+          IS FIREFOX SUDDENLY BREAKING IN A MODAL OR OTHER ELEMS
+          WITH A TRANSFORM? THIS IS PROBABLY WHY
+
+          This section should be deleted if Firefox ever gets their
+          shit together and fixes their stupid browser. See:
+          https://github.com/d3/d3/issues/2771
+          https://bugzilla.mozilla.org/show_bug.cgi?id=849203
+          https://bugzilla.mozilla.org/show_bug.cgi?id=972041
+
+          delete sections from:
+           * below
+           * the props
+           * the detached
+           * the onIronResize
+           * _createHandleListeners (adding _transformX)
+           * _trackOnClick
+
+        */
+        if(navigator.userAgent.indexOf('Firefox') !== -1) {
+          this.searchForTransforms = true;
+          // we must create a unique event name since this is attached
+          // to the window. We dont want other sliders on the page
+          // to trigger the event for all sliders.
+          // this._transformEventName += this.getId('-');
+          this._searchForTransformationsBound = this._searchForTransformations.bind(this);
+          window.addEventListener(this._transformEventName, this._searchForTransformationsBound);
+        }
+      },
+
+      _searchForTransformations(evt) {
+        const ne = Polymer.dom(evt);
+        let transform = 0;
+
+        window.requestAnimationFrame(() => {
+          for(var i = 0; i<ne.path.length; i++) {
+            if(ne.path[i] instanceof HTMLElement) {
+              const styles = window.getComputedStyle(ne.path[i]);
+
+              if(styles.transform && styles.transform !== 'none') {
+                // only picking up X right now
+                // TODO if we implement Y sliders, need to get the y val
+                // Example transform val: matrix(1, 0, 0, 1, -200, -82.5)
+                transform += Number(styles.transform.split(',')[4]);
+              }
+            }
+          }
+
+          this._transformX = Math.abs(transform);
+        });
       },
 
       /**
@@ -531,27 +603,19 @@ Custom property | Description
       _createHandleListeners(handle, valueVar) {
         var handleBody = handle.select('.handleBody');
         var progressBar = Px.d3.select(this.$$('.progressBar'));
-var _this = this;
+
         handle.call(Px.d3.drag()
           .on("start.interrupt", function() { handle.interrupt(); })
           .on("start drag", function() {
-            // debugger
-            console.log('start drag')
             // apply styling
             handleBody.classed("handleBodyPressed", true);
             progressBar.classed("progressBarPressed", true);
 
             // TODO for vertical: check state, pass in d3.event.y
-            console.log('d3.event.x: %s', Px.d3.event.x)
-            console.log('d3.event.sourceEvent.offsetX: %s', Px.d3.event.sourceEvent.offsetX)
-            debugger
-            const [coordsX] = Px.d3.mouse(this);
-            const offsetX = coordsX < 0 ? Math.abs(coordsX) : 0;
-            _this._calcSliderValue(Px.d3.event.x+offsetX, valueVar);
+            this._calcSliderValue(Px.d3.event.x + this._transformX, valueVar);
 
-          })
+          }.bind(this))
           .on("end", function() {
-            console.log('end')
             // remove styling
             handleBody.classed("handleBodyPressed", false);
             progressBar.classed("progressBarPressed", false);
@@ -585,7 +649,7 @@ var _this = this;
        */
       _trackOnClick(elem) {
         // TODO vertical: [1]
-        var val = Px.d3.mouse(elem)[0], // Get the mouse position
+        var val = Px.d3.mouse(elem)[0] + this._transformX, // Get the mouse position
             prop = 'value';  //assume it should affect the left value
 
         if(this.isRange) {
@@ -673,6 +737,16 @@ var _this = this;
 
           this.set('_width', Math.max(w, 0));
           // this.set('_height', Math.max(h, 0));
+
+          if(this.searchForTransforms) {
+            const event = new CustomEvent(this._transformEventName, {
+              bubbles: true,
+              composed: true,
+              cancelable: true
+            });
+
+            this.dispatchEvent(event);
+          }
         }, 10);
       },
 

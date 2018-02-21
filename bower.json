@@ -21,14 +21,13 @@
   ],
   "dependencies": {
     "polymer": "#1.9 - 2",
-    "px-d3-imports": "^2.0.0",
+    "px-d3-imports": "^3.0.0",
     "iron-resizable-behavior": "^2.0.0",
     "px-number-formatter": "^4.0.0",
     "iron-a11y-keys": "^2.0.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
-    "px-starter-kit-design": "^1.0.0",
     "px-demo": "^3.0.0",
     "px-helpers-design": "^1.0.0",
     "px-forms-design": "^2.0.0",
