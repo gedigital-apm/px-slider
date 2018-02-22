@@ -1,7 +1,10 @@
-v2.2.0
+v2.2.2
+==================
+* Added workaround for a Firefox bug where getScreenCTM doesnt work right when the svg is in a transformed HTML element
+
+v2.2.1
 ==================
 * Fix demo for IE
-
 
 v2.2.0
 ==================
