@@ -544,7 +544,7 @@ Custom property | Description
            * _trackOnClick
 
         */
-        if(navigator.userAgent.indexOf('Firefox') !== -1) {
+        if(!!navigator.userAgent.match(/Firefox/)) {
           this.searchForTransforms = true;
           // we must create a unique event name since this is attached
           // to the window. We dont want other sliders on the page
