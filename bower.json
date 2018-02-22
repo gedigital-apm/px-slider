@@ -17,7 +17,8 @@
     "wct.conf.json",
     "test",
     "OSS_Notice.pdf",
-    "*.png"
+    "*.png",
+    "examples"
   ],
   "dependencies": {
     "polymer": "#1.9 - 2",
