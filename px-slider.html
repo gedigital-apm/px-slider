@@ -447,16 +447,25 @@ Custom property | Description
           }
         },
 
+        /**
+         * For FF fix: The amount we need to add to our mouse vals for them to be correct
+         */
         _transformX: {
           type: Number,
           value: 0
         },
 
-        searchForTransforms: {
+        /**
+         * For FF fix
+         */
+        _searchForTransforms: {
           type: Boolean,
           value: false
         },
 
+        /**
+         * For FF fix
+         */
         _transformEventName: {
           type: String,
           value: 'search-for-transforms'
@@ -490,7 +499,7 @@ Custom property | Description
       },
 
       detached() {
-        if(this.searchForTransforms) {
+        if(this._searchForTransforms) {
           this.removeID(this._transformEventName);
           window.removeEventListener(this._transformEventName, this._searchForTransformationsBound);
         }
@@ -545,7 +554,7 @@ Custom property | Description
 
         */
         if(!!navigator.userAgent.match(/Firefox/)) {
-          this.searchForTransforms = true;
+          this._searchForTransforms = true;
           // we must create a unique event name since this is attached
           // to the window. We dont want other sliders on the page
           // to trigger the event for all sliders.
@@ -741,7 +750,7 @@ Custom property | Description
           this.set('_width', Math.max(w, 0));
           // this.set('_height', Math.max(h, 0));
 
-          if(this.searchForTransforms) {
+          if(this._searchForTransforms) {
             const event = new CustomEvent(this._transformEventName, {
               bubbles: true,
               composed: true,
