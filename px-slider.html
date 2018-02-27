@@ -558,7 +558,7 @@ Custom property | Description
           // we must create a unique event name since this is attached
           // to the window. We dont want other sliders on the page
           // to trigger the event for all sliders.
-          this._transformEventName += this.generateRandomID(this._transformEventName);
+          this._transformEventName = this.generateRandomID(this._transformEventName);
           this._searchForTransformationsBound = this._searchForTransformations.bind(this);
           window.addEventListener(this._transformEventName, this._searchForTransformationsBound);
         }
