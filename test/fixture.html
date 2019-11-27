@@ -22,59 +22,115 @@ limitations under the License.
     <title>seed-element</title>
 
     <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
     <!-- web-component-tester automatically provides local copy of brower.js below
          for any URL ending with "/web-component-tester/browser.js"
          when wct is run from the command line -->
-    <script src="../../web-component-tester/browser.js"></script>
-    <link rel="import" href="../px-slider.html" />
+    <script src="../../wct-browser-legacy/browser.js"></script>
+    <script type="module" src="../px-slider.js"></script>
     <!-- Retain this link for px-theme.html -->
     <!-- For some reason px-theme is needed for WCT to run without some errors -->
-    <link rel="import" href="../../px-theme/px-theme-styles.html">
-    <script src="../../test-fixture/test-fixture-mocha.js"></script>
-    <link href="../../test-fixture/test-fixture.html" rel="import">
-    <custom-style>
+    <script type="module" src="../../px-theme/px-theme-styles.js"></script>
+    <script src="../../@polymer/test-fixture/test-fixture-mocha.js"></script>
+    <script type="module" src="../../@polymer/test-fixture/test-fixture.js"></script>
+    <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
       <style include="px-theme-styles" is="custom-style"></style>
-    </custom-style>
+    </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
   </head>
   <body>
 
     <!-- You use the document as a place to set up your fixtures. -->
-    <test-fixture id="px_slider_simple">
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px_slider_simple">
       <template>
         <px-slider value="10"></px-slider>
       </template>
-    </test-fixture>
-    <test-fixture id="px_slider_complex">
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px_slider_complex">
       <template>
         <px-slider min="5.00" max="40.00" value="10.00" step=".01"></px-slider>
       </template>
-    </test-fixture>
-    <test-fixture id="px_slider_range">
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px_slider_range">
       <template>
-        <px-slider value="10" start-value="0" end-value="20" is-range></px-slider>
+        <px-slider value="10" start-value="0" end-value="20" is-range=""></px-slider>
       </template>
-    </test-fixture>
-    <test-fixture id="px_slider_disabled">
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px_slider_disabled">
       <template>
         <px-slider value="10" disabled="true"></px-slider>
       </template>
-    </test-fixture>
-    <test-fixture id="px_slider_range_neg">
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px_slider_range_neg">
       <template>
-        <px-slider value="-30" end-value="20" min="-40" max="100" is-range></px-slider>
+        <px-slider value="-30" end-value="20" min="-40" max="100" is-range=""></px-slider>
       </template>
-    </test-fixture>
-    <test-fixture id="px_slider_logarithmic">
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px_slider_logarithmic">
       <template>
-        <px-slider value="10" min="1" max="100" scale="logarithmic" ></px-slider>
+        <px-slider value="10" min="1" max="100" scale="logarithmic"></px-slider>
       </template>
-    </test-fixture>
-    <test-fixture id="px_slider_labels">
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px_slider_labels">
       <template>
-        <px-slider value="10" min="1" max="100" show-labels min-label-position="top" max-label-position="bottom"></px-slider>
+        <px-slider value="10" min="1" max="100" show-labels="" min-label-position="top" max-label-position="bottom"></px-slider>
       </template>
-    </test-fixture>
-    <script src="px-slider-custom-tests.js"></script>
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+    <script src="./px-slider-custom-tests.js"></script>
   </body>
 </html>

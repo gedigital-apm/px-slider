@@ -23,59 +23,68 @@ limitations under the License.
   <title>px-modal demo</title>
 
   <!-- Load webcomponentsjs + Polymer -->
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../../polymer/polymer.html"/>
+  <script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+  <script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
 
   <!-- Load components -->
-  <link rel="import" href="../../px-modal/px-modal.html"/>
-  <link rel="import" href="../px-slider.html"/>
+  <script type="module" src="../../px-modal/px-modal.js"></script>
+  <script type="module" src="../px-slider.js"></script>
 
-  <style>
+  <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<style>
     html {
       font-size: 15px;
     }
-  </style>
+  </style>`;
+
+document.head.appendChild($_documentContainer.content);
+</script>
 
   <!-- Load theme -->
-  <link rel="import" href="../../px-theme/px-theme-styles.html"/>
-  <custom-style>
+  <script type="module" src="../../px-theme/px-theme-styles.js"></script>
+  <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
     <style include="px-theme-styles" is="custom-style"></style>
-  </custom-style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
 </head>
 <body>
-  <dom-bind>
+  <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-bind>
     <template is="dom-bind">
       <!-- <div style="transform: translate(20%,0)"> -->
-        <px-modal
-          header-text="Confirm delete"
-          body-text="Do you want to delete this record? The record will be deleted permanently."
-          accept-text="Permanently Delete Record"
-          reject-text="Cancel"
-          open-trigger="[[trigger]]">
+        <px-modal header-text="Confirm delete" body-text="Do you want to delete this record? The record will be deleted permanently." accept-text="Permanently Delete Record" reject-text="Cancel" open-trigger="[[trigger]]">
           <div slot="body">
             <div style="transform: translate(-10%,0)">
-              <px-slider
-              value="10"
-              end-value="90"
-              min="0"
-              max="100"
-              step="1"
-              is-range
-              scale="linear"
-              base="10"
-              exponent="2"
-              min-label-position="bottom"
-              max-label-position="bottom">
+              <px-slider value="10" end-value="90" min="0" max="100" step="1" is-range="" scale="linear" base="10" exponent="2" min-label-position="bottom" max-label-position="bottom">
               </px-slider>
             </div>
           </div>
         </px-modal>
       <!-- </div> -->
-      <px-modal-trigger
-        trigger="{{trigger}}">
+      <px-modal-trigger trigger="{{trigger}}">
         <button class="btn btn--tertiary">Open Modal</button>
       </px-modal-trigger>
     </template>
-  </dom-bind>
+  </dom-bind>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
 </body>
 </html>
