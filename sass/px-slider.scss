@@ -66,6 +66,19 @@ $inuit-enable-validation-states : true;
   transition: fill 0.4s;
 }
 
+.progressBarRangeHoverLinear {
+  cursor: grab;
+  stroke: var(--px-slider-background-color--hover, black);
+  fill: var(--px-slider-background-color--hover, black);
+  transition: fill 0.4s;
+}
+
+.progressBarRangePressedLinear {
+  cursor: grabbing;
+  stroke: var(--px-slider-background-color--pressed, black);
+  fill: var(--px-slider-background-color--pressed, black);
+}
+
 .progressBarHover {
   stroke: var(--px-slider-background-color--hover, black);
   fill: var(--px-slider-background-color--hover, black);
@@ -74,6 +87,10 @@ $inuit-enable-validation-states : true;
 .progressBarPressed {
   stroke: var(--px-slider-background-color--pressed, black);
   fill: var(--px-slider-background-color--pressed, black);
+}
+
+.progressBar.progressBarHover .progressBarRangeHoverLinear{
+  cursor: default;
 }
 
 #progressBar.disabled .progressBar {

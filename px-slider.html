@@ -485,7 +485,39 @@ Custom property | Description
         _transformEventName: {
           type: String,
           value: 'search-for-transforms'
-        }
+        },
+
+        /**
+         * Extent of the progress bar
+         */
+         _extent:{
+          type: Object,
+          value: function() { return{}; }
+        },
+
+        /**
+         * Variable to capture the movement of the mouse drag
+         */
+        _movement: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * Variable to capture the status of the moving progress bar
+         */
+        _whileSlidingBar: {
+          type: Boolean,
+          value: false,
+        },
+
+        /**
+         * Number of decimal places in the step, for scaling the end value
+         */
+        _stepDecimalDigits: {
+          type: Number,
+          value: 0,
+        },
       },
       behaviors: [
         Polymer.IronResizableBehavior,
@@ -505,6 +537,8 @@ Custom property | Description
         '_isRangeChanged(isRange)',
         '_hideInputsChanged(hideInputs)'
       ],
+
+      LINEAR: 'linear',
 
       ready() {
         window.requestAnimationFrame(this._animationFrame.bind(this));
@@ -618,13 +652,130 @@ Custom property | Description
 
             // setup click listeners on the track and bars
             this._createTrackListeners();
+
+            // setup drag listener for progress bar
+            this._createProgressBarListener();
           }
 
           // add or remove disabled class
           this._toggleDisabledClass();
+        }    
+      },
+    
+      /**
+       * Creates the sliding behavior and pressed state for the progress Bar.
+       */
+      _createProgressBarListener(){
+        this._progressBar.call(Px.d3.drag()
+        .on("start.drag", this._onDragStart.bind(this))
+        .on("end.drag", this._onDragEnd.bind(this)) 
+        .on("drag.drag",this._onDragMove.bind(this)));
+
+        this._stepDecimalDigits = this._countDecimalDigits();
+        this._setProgressBarStyle();
+      },
+
+      /**
+       * When the Progrss Bar is being dragged
+       *
+       */
+      _onDragStart: function() {
+        if(!this._isBarAtExtremeEnds()){
+          if(this.isRange && this.scale == this.LINEAR){
+            this._whileSlidingBar = true;
+            this._extent = Px.d3.select(this.$$('.progressBar')).node().getBBox();
+            this._extent.difference = this.endValue - this.value;
+            
+            var progressBar = Px.d3.select(this.$$('.progressBar'));
+            progressBar.classed("progressBarRangePressedLinear", true);
+          }
         }
       },
 
+      /**
+       * Returns the boolean status of whether the start and
+       * end handles are at the extreme ends
+       */
+      _isBarAtExtremeEnds: function() {
+        if(this.value == this.min && this.endValue == this.max){
+          return true;
+        } 
+        else{
+          return false;
+        }
+      },
+
+      /**
+       * When Progress bar is moving
+       *
+       */
+      _onDragMove: function() {
+        if(!this._isBarAtExtremeEnds() && this.isRange && this.scale == this.LINEAR){
+          this._movement = this._movement + Px.d3.event.dx;
+
+          if(Math.abs(this._movement) > 0){
+            this.debounce('_progressBarMove', function() {
+              this._progressBarMoveDebounced(this._movement);
+            }, 10);
+          }
+        }
+      },
+
+      _progressBarMoveDebounced(mouseMovement) {
+        //Allow drag only if the start and end values are not in the extreme ends
+        if(!(this.value == this.min && this.endValue == this.max)){
+
+          var newX = this._extent.x + mouseMovement;
+          var minFlag = false;
+        
+          var startMouseVal = this._scale.invert(newX),  //convert pixel --> value
+              startActualVal = this._calcStepRounded(startMouseVal),  //round the value
+              startInputElem = this._inputStart;  //start input field
+              endInputElem = this._inputEnd;  //end input field  
+
+          // Sliding bar has reached the extreme min and wants to move further left
+          if( startActualVal <= this.min && mouseMovement<0){
+            startActualVal = this.min;
+            endActualVal = this.min + this._extent.difference;
+            minFlag = true;
+          }
+          
+          endActualVal = startActualVal + this._extent.difference;
+
+          // Sliding bar has reached the extreme max and wants to move further right
+          if( endActualVal >= this.max && mouseMovement > 0){
+            endActualVal = this.max;
+            startActualVal = endActualVal - this._extent.difference;
+          }
+
+          this._extent.x = newX;
+          
+          endActualVal = endActualVal.toFixed(this._stepDecimalDigits);
+
+          this.toggleClass('validation-error', false, startInputElem);
+          this.toggleClass('validation-error', false, endInputElem);
+          this.set('value', startActualVal);
+          this.set('endValue', endActualVal);
+          
+          // Reset the mouse movement so that we can capture data for the next drag
+          this._movement = 0;
+        }
+      },
+
+      
+      /**
+       * When Progress Bar stops moving
+       *
+       * @method _onDragEnd
+       */
+      _onDragEnd: function () {
+        if(!this._isBarAtExtremeEnds() && this.isRange && this.scale == 'linear'){
+          this._whileSlidingBar = false;
+          var progressBar = Px.d3.select(this.$$('.progressBar'));
+          progressBar.classed("progressBarRangePressedLinear", false);
+          progressBar.classed("progressBarRangeHoverLinear", true);
+        }
+      },
       /**
        * Creates the drag behavior and hover, pressed states for the handles.
        */
@@ -647,7 +798,7 @@ Custom property | Description
             // remove styling
             handleBody.classed("handleBodyPressed", false);
             progressBar.classed("progressBarPressed", false);
-          })
+          }.bind(this))
         )
         .on("mouseenter", function() {
           handleBody.classed("handleBodyHover", true);
@@ -676,6 +827,8 @@ Custom property | Description
        * The actual callback for our track on click
        */
       _trackOnClick(elem) {
+        var clickAllowed = true;
+        
         // TODO vertical: [1]
         var val = Px.d3.mouse(elem)[0] + this._transformX, // Get the mouse position
             prop = 'value';  //assume it should affect the left value
@@ -685,10 +838,20 @@ Custom property | Description
           var scaled = this._scale.invert(val),
               half = (this.endValue - this.value) / 2 + this.value;
 
-          prop = (scaled > this.endValue || scaled > half) ? 'endValue' : 'value';
+          // Allow track bar clicks only outside the progress bar
+          if ( (this.value < scaled && this.endValue > scaled) && this.scale == this.LINEAR ){
+            clickAllowed = false;
+          }
+          else{
+            //check to see which is closer
+            prop = (scaled > this.endValue || scaled > half) ? 'endValue' : 'value';
+          }
         }
 
-        this._calcSliderValue(val, prop);
+        // Allow track bar clicks only outisde the progress bar
+        if(clickAllowed){
+          this._calcSliderValue(val, prop);
+        }
       },
 
       /**
@@ -706,6 +869,16 @@ Custom property | Description
         var interactionRects = Px.d3.selectAll(Polymer.dom(this.$$('#sliderSVG')).querySelectorAll('.sliderTrack'));
 
         interactionRects.on('click', null);
+      },
+
+      /**
+       * Count the number of decimal places in step value, this helps with 
+       * endValue calculation for sliding progress bar
+       */
+      _countDecimalDigits() {
+        if ((this.step % 1) != 0) 
+          return this.step.toString().split(".")[1].length;  
+        return 0;
       },
 
       /**
@@ -955,6 +1128,25 @@ Custom property | Description
       },
 
       /**
+       * Sets the style for the progress bar
+       */
+      _setProgressBarStyle() {
+        if(this._progressBar) {
+          // Linear range slider with handles at extreme ends
+          if(this.isRange && this.scale == this.LINEAR && !(this.value == this.min && this.endValue == this.max)) {
+            this._progressBar.classed("progressBar", false);
+            this._progressBar.classed("progressBarRangeHoverLinear", true);
+            this._progressBar.classed("progressBarHover", false);
+          }
+          else {
+            this._progressBar.classed("progressBarRangeHoverLinear", false);
+            this._progressBar.classed("progressBar", true);
+            this._progressBar.classed("progressBarHover", true);
+          }
+        }
+      },
+
+      /**
        * Calculate the slider handle value from the mouse position
        */
       _calcSliderValue(mouseVal, valueVar) {
@@ -979,6 +1171,8 @@ Custom property | Description
 
         this.toggleClass('validation-error', false, inputElem);
         this.set(valueVar, stepped);
+
+        this._setProgressBarStyle();
       },
 
       /**
@@ -1040,6 +1234,7 @@ Custom property | Description
               this.setAttribute('aria-valuenow', value);
             }
           }
+          this._setProgressBarStyle();
         }
       },
 
@@ -1080,11 +1275,15 @@ Custom property | Description
        * Update the end point of the progress bar based on the value property or endValue property
        */
       _calcProgressEnd(value, endValue, _scaleChanged, isRange) {
-        if (! (value === undefined || endValue === undefined || _scaleChanged === undefined || isRange === undefined)) {
-          if(this.isRange) {
-            return Math.max(this._scale(this.endValue) - this._scale(this.value), 1);
-          }
+        if(this._whileSlidingBar){
+          return this._extent.width;
+        }
 
+        if (! (value === undefined || endValue === undefined || _scaleChanged === undefined || isRange === undefined)) {
+            if(this.isRange) {
+              return Math.max(this._scale(this.endValue) - this._scale(this.value), 1);
+            }
+          
           return this._scale(this.value);
         }
       },
@@ -1176,6 +1375,8 @@ Custom property | Description
         */
         this[valueVar] = null;
         this.set(valueVar, newVal);
+
+        this._setProgressBarStyle();
       },
 
       /**
@@ -1228,6 +1429,9 @@ Custom property | Description
 
           // rebuild the handles
           this._buildHandles();
+
+          // Set the style for the progress bar
+          this._setProgressBarStyle();
         }
       },
 
