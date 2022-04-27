@@ -680,8 +680,9 @@ Custom property | Description
        *
        */
       _onDragStart: function() {
-        if(!this._isBarAtExtremeEnds()){
-          if(this.isRange && this.scale == this.LINEAR){
+        // Allow the drag only if we have a range slider with linear scale and the
+        // start and end handles are not at the extreme ends
+        if(!this._isBarAtExtremeEnds() && this.isRange && this.scale == this.LINEAR) {
             this._whileSlidingBar = true;
             this._extent = Px.d3.select(this.$$('.progressBar')).node().getBBox();
             this._extent.difference = this.endValue - this.value;
@@ -689,7 +690,6 @@ Custom property | Description
             var progressBar = Px.d3.select(this.$$('.progressBar'));
             progressBar.classed("progressBarRangePressedLinear", true);
           }
-        }
       },
 
       /**
@@ -697,12 +697,7 @@ Custom property | Description
        * end handles are at the extreme ends
        */
       _isBarAtExtremeEnds: function() {
-        if(this.value == this.min && this.endValue == this.max){
-          return true;
-        } 
-        else{
-          return false;
-        }
+        return !! (this.value == this.min && this.endValue == this.max);
       },
 
       /**
@@ -722,7 +717,7 @@ Custom property | Description
       },
 
       _progressBarMoveDebounced(mouseMovement) {
-        //Allow drag only if the start and end values are not in the extreme ends
+        // Allow drag only if the start and end values are not at the extreme ends
         if(!(this.value == this.min && this.endValue == this.max)){
 
           var newX = this._extent.x + mouseMovement;
@@ -1132,8 +1127,8 @@ Custom property | Description
        */
       _setProgressBarStyle() {
         if(this._progressBar) {
-          // Linear range slider with handles at extreme ends
-          if(this.isRange && this.scale == this.LINEAR && !(this.value == this.min && this.endValue == this.max)) {
+          // Linear range slider with handles not at extreme ends
+          if(this.isRange && this.scale == this.LINEAR && !this._isBarAtExtremeEnds()) {
             this._progressBar.classed("progressBar", false);
             this._progressBar.classed("progressBarRangeHoverLinear", true);
             this._progressBar.classed("progressBarHover", false);
