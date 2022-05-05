@@ -490,7 +490,7 @@ Custom property | Description
         /**
          * Extent of the progress bar
          */
-         _extent:{
+        _extent:{
           type: Object,
           value: function() { return{}; }
         },
@@ -864,7 +864,7 @@ Custom property | Description
        * Returns the boolean status of whether the start and
        * end handles are at the extreme ends
        */
-       _isBarAtExtremeEnds: function() {
+      _isBarAtExtremeEnds: function() {
         return !! (this.value == this.min && this.endValue == this.max);
       },
 
@@ -942,6 +942,9 @@ Custom property | Description
 
             this.dispatchEvent(event);
           }
+          // Set the progress style when the slider is reset
+          this._setProgressBarStyle();
+          
         }, 10);
       },
 
@@ -1165,7 +1168,6 @@ Custom property | Description
 
         this.toggleClass('validation-error', false, inputElem);
         this.set(valueVar, stepped);
-
         this._setProgressBarStyle();
       },
 
