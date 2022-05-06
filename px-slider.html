@@ -701,6 +701,7 @@ Custom property | Description
       },
 
       _progressBarMoveDebounced(mouseMovement) {
+        // mouseMovement = 10;
         // Allow drag only if the start and end values are not at the extreme ends
         if(!(this.value == this.min && this.endValue == this.max)){
 
@@ -720,7 +721,7 @@ Custom property | Description
           }
           
           endActualVal = startActualVal + this._extent.difference;
-
+          
           // Sliding bar has reached the extreme max and wants to move further right
           if( endActualVal >= this.max && mouseMovement > 0){
             endActualVal = this.max;
@@ -728,14 +729,14 @@ Custom property | Description
           }
 
           this._extent.x = newX;
-          
+
           endActualVal = endActualVal.toFixed(this._getDecimalDigits());
 
           this.toggleClass('validation-error', false, startInputElem);
           this.toggleClass('validation-error', false, endInputElem);
           this.set('value', startActualVal);
           this.set('endValue', endActualVal);
-          
+
           // Reset the mouse movement so that we can capture data for the next drag
           this._movement = 0;
         }
@@ -1189,6 +1190,8 @@ Custom property | Description
        */
       _validateValue(v, thisVal) {
         var valid = true;
+        // Setting v to number because it gets converted to string if user has specified value from slider demo UI
+        v = Number(v);
         // check that value <= endValue
         if(this.isRange && thisVal === 'value' && v > this.endValue) {
           v = this.endValue;
@@ -1214,7 +1217,7 @@ Custom property | Description
           valid = false;
           this.set(thisVal, v);
         }
-
+        
         return valid;
       },
 
